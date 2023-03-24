@@ -1,5 +1,6 @@
-﻿import os,random,decimal,time,sys,platform
+import os,random,time,sys,platform,requests
 null=""
+appversion='v1.4.1'
 if platform.system()=="Windows":
     clrscr='cls'
 else:
@@ -9,6 +10,20 @@ def ResizeWindows():
         os.system("mode con cols=65 lines=32")
 ResizeWindows()
 try:
+    try:
+        import requests
+    except ModuleNotFoundError:
+        os.system(clrscr)
+        print("ERROR!")
+        print("You cannot run this program. Cannot found 'requests' module")
+        print("Error code: REQUESTS_MODULE_CANNOT_BE_FOUND")
+        print("")
+        input("Connect your device to the Internet and press Enter to install requests module or press Ctrl+C to exit")
+        os.system(clrscr)
+        if platform.system()=='Windows':
+            os.system('py -m pip install requests')
+        else:
+            os.system('pip install requests')   
     try:
         from colorama import Fore, Back, Style, init, AnsiToWin32
         print(Style.RESET_ALL)
@@ -24,7 +39,8 @@ try:
             os.system('py -m pip install colorama')
         else:
             os.system('pip install colorama')
-        os.system(clrscr)
+        
+            os.system(clrscr)
         print("Installation complete!")
         input("Restart your program to use it now!")
         exit()
@@ -33,17 +49,17 @@ except KeyboardInterrupt:
 def TitlePrint():
     os.system(clrscr)
     print("")
-    print("                 TRÌNH TẠO PHÉP TOÁN NGẪU NHIÊN"), '\n'
+    print("                 TRÌNH TẠO PHÉP TOÁN NGẪU NHIÊN")
     print("")
-    print(f"{null:-<65}"),'\n'
+    print(f"{null:-<65}")
     print("")
 def TaskComplete():
     TitlePrint()
-    print("     Cài đặt được lưu thành công!"),'\n'
-    print("     Thay đổi sẽ được thiết lập khi bấm phím Enter"),'\n'
-    print("     Nhấn phím Enter để tiếp tục"),'\n'
+    print("     Cài đặt được lưu thành công!")
+    print("     Thay đổi sẽ được thiết lập khi bấm phím Enter")
+    print("     Nhấn phím Enter để tiếp tục")
     print('')
-    print(f"{null:-<65}"),'\n'
+    print(f"{null:-<65}")
     input()
 RetryVerify=True
 enable=True
@@ -596,17 +612,19 @@ try:
                 print('     [5]: Thông tin hệ thống')
                 print('')
                 print('     [6]: Kiểm tra file log')
+                print('')
+                print('     [7]: Cập nhật phần mềm (Beta)')
                 print("")
                 print(f'{null:-<65}')
                 print('')
-                inputexpect=str(input(' Lựa chọn (0-6) -> '))
+                inputexpect=str(input(' Lựa chọn (0-7) -> '))
                 uisettingsexit=False
                 mathsettingsexit=False
                 viewsettingsexit=False
                 mikuloop=True
                 try:
                     inputexpect=int(inputexpect)
-                    if inputexpect not in [0,1,2,3,4,5,6,31082007]: 
+                    if inputexpect not in [0,1,2,3,4,5,6,7,31082007]: 
                         print(' Số vừa nhập không hợp lệ!')
                         time.sleep(1)
                 except ValueError:
@@ -777,6 +795,90 @@ try:
                            else:
                             print(' Lỗi cú pháp!')
                             time.sleep(1)
+                if inputexpect==7:
+                    os.system(clrscr)
+                    TitlePrint()
+                    print("                       CẬP NHẬT PHẦN MỀM:")
+                    print("")
+                    print('                    Đang kiểm tra cập nhật...')
+                    print('')
+                    print(f"{null:-<65}")
+                    try:
+                        response = requests.get("https://api.github.com/repos/StrongholdGreetings/MathProblemGenerator_Vietnamese/releases/latest")
+                        latest=response.json()["name"]
+                        if appversion>=latest:
+                            os.system(clrscr)
+                            TitlePrint()
+                            print('                       CẬP NHẬT PHẦN MỀM:')
+                            print('')
+                            print('             Ứng dụng này đang ở phiên bản mới nhất!')
+                            print('')
+                            print(f'                   Phiên bản hiện tại: {appversion}')
+                            print('')
+                            print('                    Nhấn phím Enter để thoát.')
+                            print('')
+                            input(f'{null:-<65}')
+                        elif appversion<latest:
+                            os.system(clrscr)
+                            TitlePrint()
+                            print('     CẬP NHẬT PHẦN MỀM:')
+                            print('')
+                            print('     Ứng dụng này hiện có bản cập nhật mới!')
+                            print('')
+                            print(f'     Phiên bản hiện tại: {appversion}')
+                            print('')
+                            print(f'     Phiên bản mới nhất: {latest}')
+                            print('')
+                            print('     Bạn có muốn cài đặt bây giờ không?')
+                            print('')
+                            print('     [0]: Không (Quay lại)')
+                            print('')
+                            print('     [1]: Có')
+                            print('')
+                            print(' * Lưu ý: Sau khi tải xong, nó sẽ ở chung thư mục của phiên bản')
+                            print(' hiện tại.')
+                            print(f'{null:-<65}')
+                            print('')
+                            updatechoice=str(input(" Lựa chọn (0-1) -> "))
+                            try:
+                                updatechoice=int(updatechoice)
+                                if updatechoice not in [0,1]:
+                                    print(' Số vừa nhập không hợp lệ!')
+                                    time.sleep(1)
+                            except ValueError:
+                                print(' Lỗi cú pháp!')
+                                time.sleep(1)
+                            if updatechoice==1:
+                                os.system(clrscr)
+                                TitlePrint()
+                                print('                       CẬP NHẬT PHẦN MỀM"')       
+                                print('')
+                                print('                           Đang tải...')
+                                print('')
+                                print(f'{null:-<65}')
+                                url = f'https://github.com/StrongholdGreetings/MathProblemGenerator_Vietnamese/raw/main/MathProblemGenerator.exe'
+                                response = requests.get(url)
+                                with open('MathProblemGenerator.exe', 'wb') as tempdown:
+                                    tempdown.write(response.content)
+                                    TitlePrint()
+                                    print('                       CẬP NHẬT PHẦN MỀM')
+                                    print('')
+                                    print('                    Tải xuống thành công!!!')
+                                    print()
+                                    print(f'{null:-<65}')
+                                    time.sleep(1)
+                    except requests.exceptions.RequestException:
+                        os.system(clrscr)
+                        TitlePrint()
+                        print('                       CẬP NHẬT PHẦN MỀM:')
+                        print('')
+                        print("           Hình như PC này chưa kết nối đến Internet!")
+                        print("")
+                        print("           Hãy kết nối PC này vào Internet và thử lại!")
+                        print('')
+                        print('            Bây giờ thì hãy nhấn phím Enter để thoát')
+                        print('')
+                        input(f'{null:-<65}')
                 if inputexpect==0:
                     settingsexit=True
                 if inputexpect==6:
@@ -1508,7 +1610,7 @@ try:
                     TitlePrint()
                     print("     THÔNG TIN PHẦN MỀM:")
                     print('')
-                    print("     - Phiên bản 1.4")
+                    print("     - Phiên bản 1.4.1")
                     print('')
                     print(f'     - Phiên bản Python: {platform.python_version()}')
                     print('')
