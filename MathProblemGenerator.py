@@ -1,7 +1,7 @@
 import os,random,time,sys,platform 
 from colorama import Fore, Back, Style, init, AnsiToWin32
 null=""
-appversion='v1.4.2'
+appversion='v1.4.3'
 if platform.system()=="Windows":
     clrscr='cls'
 else:
@@ -594,7 +594,7 @@ try:
                 print('')
                 print('     [6]: Kiểm tra file log')
                 print('')
-                print('     [7]: Cập nhật phần mềm (Beta)')
+                print('     [7]: Cập nhật phần mềm')
                 print("")
                 print(f'{null:-<65}')
                 print('')
@@ -864,6 +864,17 @@ try:
                         print('            Bây giờ thì hãy nhấn phím Enter để thoát')
                         print('')
                         input(f'{null:-<65}')
+                    except PermissionError:
+                        TitlePrint()
+                        print('                       CẬP NHẬT PHẦN MỀM:')
+                        print('')
+                        print('              Phần mềm không thể ghi lại bản cập nhật.')
+                        print('        Hãy kiểm tra quyền truy cập ổ đĩa và/hoặc file sau:')
+                        print(f'                 {updatedir}')
+                        print('')
+                        print('                    Nhấn phím Enter để thoát!')
+                        print('')
+                        input(f"{null:-<65}")
                 if inputexpect==0:
                     settingsexit=True
                 if inputexpect==6:
@@ -965,9 +976,9 @@ try:
                                         elif allowfraction==2:
                                             DKthapphanNhap='False'
                                         if allowfraction in [1,2]:    
-                                            TaskComplete()
                                             with open("Data/AllowFractionResult.log","w") as m1:
                                                 m1.write(DKthapphanNhap)
+                                            TaskComplete()
                                             decimalacceptloop=False
                                         elif allowfraction==0:
                                             decimalacceptloop=False
@@ -1009,9 +1020,9 @@ try:
                                                 time.sleep(1)
                                             if rounding in [1,2,3,4,5]:
                                                 roundtemp=str(rounding)
-                                                TaskComplete()
                                                 with open("Data/RoundingValue.log","w") as m1:
                                                     m1.write(roundtemp)
+                                                TaskComplete()
                                                 decimalloop=False
                                             elif rounding==0:
                                                 decimalloop=False
@@ -1066,9 +1077,9 @@ try:
                                     elif allownegative==2:
                                         DKTruNhap="False"
                                     if allownegative in [1,2]:    
-                                        TaskComplete()
                                         with open("Data/AllowNegativeResult.log","w") as m1:
-                                            m1.write(DKTruNhap)   
+                                            m1.write(DKTruNhap) 
+                                        TaskComplete()  
                 elif inputexpect==5:
                     TitlePrint()
                     print("     THÔNG TIN HỆ THỐNG:")
@@ -1290,9 +1301,9 @@ try:
                                         if textstyleselect==4:
                                             textstylechoice='Special'
                                         if textstyleselect in [1,2,3,4]:    
-                                            TaskComplete()
                                             with open("Data/TextStyleSave.log","w") as m1:
                                                 m1.write(textstylechoice)
+                                            TaskComplete()
                                             textstyleexit=True       
                                 if textselect==0:
                                     textexit=True
@@ -1329,9 +1340,9 @@ try:
                                         if textshadeselect==2:
                                             textshadechoice='Normal'
                                         if textshadeselect in [1,2]:
-                                            TaskComplete()
                                             with open("Data/TextShadeSave.log","w") as m1:
                                                 m1.write(textshadechoice)
+                                            TaskComplete()
                                 if textselect==3:
                                     BundleTest()
                                     while textcolorexit==False:
@@ -1461,9 +1472,9 @@ try:
                                         if bgshadeselect==2:
                                             bgshadechoice='Normal'
                                         if bgshadeselect in [1,2]:
-                                            TaskComplete()
                                             with open("Data/BGShadeSave.log","w") as m1:
                                                 m1.write(bgshadechoice)
+                                            TaskComplete() 
                                 if bgselect==2:
                                     BundleTest()
                                     while bgcolorexit==False:
@@ -1525,9 +1536,9 @@ try:
                                                 time.sleep(1)
                                             else:    
                                                 bgcolorchoice=bgcolortemp
-                                                TaskComplete()
                                                 with open("Data/BGColorSave.log","w") as m1:
                                                     m1.write(bgcolorchoice)
+                                                TaskComplete()
                                                 bgcolorexit=True
                         if uiselect==4:
                             ApplySettings()
@@ -1554,8 +1565,8 @@ try:
                                 print(" Lỗi cú pháp!")
                                 time.sleep(1)
                             if resetallselect==1:
-                                TaskComplete()
                                 SetColorToDefault()
+                                TaskComplete()
                         if uiselect==3:
                             BundleTest()
                             TitlePrint()
@@ -1595,7 +1606,7 @@ try:
                     TitlePrint()
                     print("     THÔNG TIN PHẦN MỀM:")
                     print('')
-                    print("     - Phiên bản 1.4.2")
+                    print("     - Phiên bản 1.4.3")
                     print('')
                     print(f'     - Phiên bản Python: {platform.python_version()}')
                     print('')
@@ -1970,3 +1981,13 @@ try:
                     time.sleep(1)
 except KeyboardInterrupt:
     exitprogram()
+except PermissionError:
+    TitlePrint()
+    print('                           LỖI ĐỌC/GHI:')
+    print('')
+    print('               Phần mềm không thể ghi lại file log.')
+    print(' Hãy kiểm tra quyền truy cập ổ đĩa và/hoặc file log của phần mềm.')
+    print('')
+    print('                    Nhấn phím Enter để thoát!')
+    print('')
+    input(f"{null:-<65}")
