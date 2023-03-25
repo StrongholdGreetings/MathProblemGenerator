@@ -1,6 +1,7 @@
-import os,random,time,sys,platform,requests
+import os,random,time,sys,platform 
+from colorama import Fore, Back, Style, init, AnsiToWin32
 null=""
-appversion='v1.4.1'
+appversion='v1.4.2'
 if platform.system()=="Windows":
     clrscr='cls'
 else:
@@ -13,37 +14,17 @@ try:
     try:
         import requests
     except ModuleNotFoundError:
-        os.system(clrscr)
-        print("ERROR!")
-        print("You cannot run this program. Cannot found 'requests' module")
-        print("Error code: REQUESTS_MODULE_CANNOT_BE_FOUND")
-        print("")
-        input("Connect your device to the Internet and press Enter to install requests module or press Ctrl+C to exit")
-        os.system(clrscr)
         if platform.system()=='Windows':
             os.system('py -m pip install requests')
         else:
-            os.system('pip install requests')   
+            os.system('pip install requests')
     try:
         from colorama import Fore, Back, Style, init, AnsiToWin32
-        print(Style.RESET_ALL)
     except ModuleNotFoundError:
-        os.system(clrscr)
-        print("ERROR!")
-        print("You cannot run this program. Cannot found Colorama module")
-        print("Error code: COLORAMA_MODULE_CANNOT_BE_FOUND")
-        print("")
-        input("Connect your device to the Internet and press Enter to install Colorama module or press Ctrl+C to exit")
-        os.system(clrscr)
         if platform.system()=='Windows':
             os.system('py -m pip install colorama')
         else:
             os.system('pip install colorama')
-        
-            os.system(clrscr)
-        print("Installation complete!")
-        input("Restart your program to use it now!")
-        exit()
 except KeyboardInterrupt:
     exit()
 def TitlePrint():
@@ -228,9 +209,9 @@ try:
                 print('')
                 print(f"{null:-<65}")
                 print('')
-                print("Một số cài đặt của bạn đã bị chuyển về mặc định.")
-                print("Lý do: Không thể tìm thấy file log/Nội dung file không hợp lệ")
-                print("Tất cả file log bị mất hoặc thay đổi đã được phục hồi.")
+                print("  Một số cài đặt của bạn đã bị chuyển về mặc định.")
+                print("  Lý do: Không thể tìm thấy file log/Nội dung file không hợp lệ")
+                print("  Tất cả file log bị mất hoặc thay đổi đã được phục hồi.")
                 print('')
                 print("     [0]: Tiếp tục chạy")
                 print('')
@@ -337,8 +318,8 @@ try:
                 print('')
                 print(f"{null:-<65}")
                 print('')
-                print("     Tất cả các file đều không gặp vấn đề.")
-                print("     Nhấn phím Enter để quay lại.")
+                print("              Tất cả các file đều không gặp vấn đề.")
+                print("                  Nhấn phím Enter để quay lại.")
                 print('')
                 print(f'{null:-<65}')
                 input()
@@ -803,6 +784,7 @@ try:
                     print('                    Đang kiểm tra cập nhật...')
                     print('')
                     print(f"{null:-<65}")
+                    time.sleep(1)
                     try:
                         response = requests.get("https://api.github.com/repos/StrongholdGreetings/MathProblemGenerator_Vietnamese/releases/latest")
                         latest=response.json()["name"]
@@ -849,24 +831,27 @@ try:
                                 print(' Lỗi cú pháp!')
                                 time.sleep(1)
                             if updatechoice==1:
+                                updatedir=f'MathProblemGenerator {latest}.exe'
                                 os.system(clrscr)
                                 TitlePrint()
-                                print('                       CẬP NHẬT PHẦN MỀM"')       
+                                print('                       CẬP NHẬT PHẦN MỀM')       
                                 print('')
                                 print('                           Đang tải...')
                                 print('')
+                                print('              Việc này sẽ chỉ mất vài giây thôi...')                           
+                                print('')
                                 print(f'{null:-<65}')
-                                url = f'https://github.com/StrongholdGreetings/MathProblemGenerator_Vietnamese/raw/main/MathProblemGenerator.exe'
+                                url = f'https://github.com/StrongholdGreetings/MathProblemGenerator_Vietnamese/releases/download/Math/MathProblemGenerator.exe'
                                 response = requests.get(url)
-                                with open('MathProblemGenerator.exe', 'wb') as tempdown:
+                                with open(updatedir, 'wb') as tempdown:
                                     tempdown.write(response.content)
-                                    TitlePrint()
-                                    print('                       CẬP NHẬT PHẦN MỀM')
-                                    print('')
-                                    print('                    Tải xuống thành công!!!')
-                                    print()
-                                    print(f'{null:-<65}')
-                                    time.sleep(1)
+                                TitlePrint()
+                                print('                       CẬP NHẬT PHẦN MỀM')
+                                print('')
+                                print('                    Tải xuống thành công!!!')
+                                print()
+                                print(f'{null:-<65}')
+                                time.sleep(1)
                     except requests.exceptions.RequestException:
                         os.system(clrscr)
                         TitlePrint()
@@ -1610,7 +1595,7 @@ try:
                     TitlePrint()
                     print("     THÔNG TIN PHẦN MỀM:")
                     print('')
-                    print("     - Phiên bản 1.4.1")
+                    print("     - Phiên bản 1.4.2")
                     print('')
                     print(f'     - Phiên bản Python: {platform.python_version()}')
                     print('')
