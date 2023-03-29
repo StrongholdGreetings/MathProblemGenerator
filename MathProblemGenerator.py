@@ -1,7 +1,7 @@
 import os,random,time,sys,platform 
 from colorama import Fore, Back, Style, init, AnsiToWin32
 null=""
-appversion='v1.4.3'
+appversion='v1.4.4'
 if platform.system()=="Windows":
     clrscr='cls'
 else:
@@ -26,7 +26,7 @@ try:
         else:
             os.system('pip install colorama')
 except KeyboardInterrupt:
-    exit()
+    sys.exit()
 def TitlePrint():
     os.system(clrscr)
     print("")
@@ -311,7 +311,7 @@ try:
                     print(" Lỗi cú pháp! Vui lòng nhập lại")
                     time.sleep(1)
         else:
-            if inputexpect==6:
+            if inputexpect==5:
                 os.system(clrscr)
                 print('')
                 print("                       TRÌNH KIỂM TRA FILE")
@@ -586,26 +586,25 @@ try:
                 print('')
                 print('     [2]: Cài đặt toán học')
                 print('')
-                print('     [3]: Xem cài đặt hiện tại')
+                print('     [3]: Thông tin phần mềm')
                 print('')
-                print('     [4]: Thông tin phần mềm')
+                print('     [4]: Thông tin hệ thống')
                 print('')
-                print('     [5]: Thông tin hệ thống')
+                print('     [5]: Kiểm tra file log')
                 print('')
-                print('     [6]: Kiểm tra file log')
-                print('')
-                print('     [7]: Cập nhật phần mềm')
+                print('     [6]: Cập nhật phần mềm')
                 print("")
                 print(f'{null:-<65}')
                 print('')
-                inputexpect=str(input(' Lựa chọn (0-7) -> '))
+                inputexpect=str(input(' Lựa chọn (0-6) -> '))
                 uisettingsexit=False
                 mathsettingsexit=False
                 viewsettingsexit=False
                 mikuloop=True
+                commandloop=True
                 try:
                     inputexpect=int(inputexpect)
-                    if inputexpect not in [0,1,2,3,4,5,6,7,31082007]: 
+                    if inputexpect not in [0,1,2,3,4,5,6,31082007]: 
                         print(' Số vừa nhập không hợp lệ!')
                         time.sleep(1)
                 except ValueError:
@@ -776,7 +775,7 @@ try:
                            else:
                             print(' Lỗi cú pháp!')
                             time.sleep(1)
-                if inputexpect==7:
+                if inputexpect==6:
                     os.system(clrscr)
                     TitlePrint()
                     print("                       CẬP NHẬT PHẦN MỀM:")
@@ -834,7 +833,7 @@ try:
                                 updatedir=f'MathProblemGenerator {latest}.exe'
                                 os.system(clrscr)
                                 TitlePrint()
-                                print('                       CẬP NHẬT PHẦN MỀM')       
+                                print('                       CẬP NHẬT PHẦN MỀM:')       
                                 print('')
                                 print('                           Đang tải...')
                                 print('')
@@ -846,7 +845,7 @@ try:
                                 with open(updatedir, 'wb') as tempdown:
                                     tempdown.write(response.content)
                                 TitlePrint()
-                                print('                       CẬP NHẬT PHẦN MỀM')
+                                print('                       CẬP NHẬT PHẦN MỀM:')
                                 print('')
                                 print('                    Tải xuống thành công!!!')
                                 print()
@@ -877,7 +876,7 @@ try:
                         input(f"{null:-<65}")
                 if inputexpect==0:
                     settingsexit=True
-                if inputexpect==6:
+                if inputexpect==5:
                     FileVerify()
                 if inputexpect==2:
                     while mathsettingsexit==False:
@@ -910,6 +909,11 @@ try:
                             mathsettingsexit=True
                         elif mathsettingsinput in [1,3]:
                             TitlePrint()
+                            if mathsettingsinput==1:
+                                print('     CÀI ĐẶT PHÉP CỘNG:')
+                            else:
+                                print('     CÀI ĐẶT PHÉP NHÂN:')
+                            print('')
                             print('     Hiện tại tính năng này chưa có gì để chỉnh sửa.')
                             print("     Nhấn phím Enter để quay lại.")
                             print('')
@@ -935,8 +939,6 @@ try:
                                 print("")
                                 print(f"{null:-<65}")
                                 print("")
-                                decimalloop=True
-                                decimalacceptloop=True
                                 divisioninput=str(input(' Lựa chọn (0-2) -> '))
                                 try:
                                     divisioninput=int(divisioninput)
@@ -949,43 +951,39 @@ try:
                                 if divisioninput==0:
                                     divisionexit=True
                                 elif divisioninput==1:
-                                    while decimalacceptloop:
-                                        FileVerify()
-                                        TitlePrint()
-                                        print('     CHO PHÉP KẾT QUẢ THẬP PHÂN?:')
-                                        print('')
-                                        print('     [0]: Quay lại')
-                                        print('')
-                                        print('     [1]: Bật')
-                                        print('')
-                                        print('     [2]: Tắt')
-                                        print("")
-                                        print(f'{null:-<65}')
-                                        print("")
-                                        allowfraction=str(input(' Lựa chọn (0-2) -> '))
-                                        try:
-                                            allowfraction=int(allowfraction)
-                                            if allowfraction not in [0,1,2]:
-                                                print(' Số vừa nhập không hợp lệ!')
-                                                time.sleep(1)
-                                        except ValueError:
-                                            print(' Lỗi cú pháp!')
+                                    FileVerify()
+                                    TitlePrint()
+                                    print('     CHO PHÉP KẾT QUẢ THẬP PHÂN?:')
+                                    print('')
+                                    print('     [0]: Quay lại')
+                                    print('')
+                                    print('     [1]: Bật')
+                                    print('')
+                                    print('     [2]: Tắt')
+                                    print("")
+                                    print(f'{null:-<65}')
+                                    print("")
+                                    allowfraction=str(input(' Lựa chọn (0-2) -> '))
+                                    try:
+                                        allowfraction=int(allowfraction)
+                                        if allowfraction not in [0,1,2]:
+                                            print(' Số vừa nhập không hợp lệ!')
                                             time.sleep(1)
-                                        if allowfraction==1:
-                                            DKthapphanNhap='True'
-                                        elif allowfraction==2:
-                                            DKthapphanNhap='False'
-                                        if allowfraction in [1,2]:    
-                                            with open("Data/AllowFractionResult.log","w") as m1:
-                                                m1.write(DKthapphanNhap)
-                                            TaskComplete()
-                                            decimalacceptloop=False
-                                        elif allowfraction==0:
-                                            decimalacceptloop=False
+                                    except ValueError:
+                                        print(' Lỗi cú pháp!')
+                                        time.sleep(1)
+                                    if allowfraction==1:
+                                        DKthapphanNhap='True'
+                                    elif allowfraction==2:
+                                        DKthapphanNhap='False'
+                                    if allowfraction in [1,2]:    
+                                        with open("Data/AllowFractionResult.log","w") as m1:
+                                            m1.write(DKthapphanNhap)
+                                        TaskComplete()
                                 elif divisioninput==2:
                                     if DKthapphanNhap.title()=='False':
                                         TitlePrint()
-                                        print('                   TRUY CẬP BỊ TỪ CHỐI!')    
+                                        print('                     TRUY CẬP BỊ TỪ CHỐI!')    
                                         print('')
                                         print('  Bạn phải bật "cho phép kết quả thập phân" để thay đổi tùy chọn ')
                                         print('  này!')
@@ -995,37 +993,33 @@ try:
                                         print(f"{null:-<65}")
                                         input()
                                     else:
-                                        while decimalloop==True:
-                                            TitlePrint()
-                                            print('     THAY ĐỔI GIÁ TRỊ LÀM TRÒN:')
-                                            print('')
-                                            print('     [0]: Thoát')
-                                            print('')
-                                            print('     [1-5]: Vị trí làm tròn số thập phân')
-                                            print("")
-                                            print(f'{null:-<65}')
-                                            print('')
-                                            rounding=str(input(" Lựa chọn (0, 1-5) -> "))
-                                            try:
-                                                rounding=int(rounding)
-                                                if rounding not in [0,1,2,3,4,5]:
-                                                    if rounding<0:
-                                                        print(" Số không hợp lệ! Vui lòng thử lại")
-                                                        time.sleep(1)
-                                                    elif rounding>5:
-                                                        print(" Giá trị vượt quá giới hạn (Giá trị phải nhỏ hơn/bằng 5)")
-                                                        time.sleep(1)
-                                            except ValueError:
-                                                print(' Lỗi cú pháp!')
-                                                time.sleep(1)
-                                            if rounding in [1,2,3,4,5]:
-                                                roundtemp=str(rounding)
-                                                with open("Data/RoundingValue.log","w") as m1:
-                                                    m1.write(roundtemp)
-                                                TaskComplete()
-                                                decimalloop=False
-                                            elif rounding==0:
-                                                decimalloop=False
+                                        TitlePrint()
+                                        print('     THAY ĐỔI GIÁ TRỊ LÀM TRÒN:')
+                                        print('')
+                                        print('     [0]: Thoát')
+                                        print('')
+                                        print('     [1-5]: Vị trí làm tròn số thập phân')
+                                        print("")
+                                        print(f'{null:-<65}')
+                                        print('')
+                                        rounding=str(input(" Lựa chọn (0, 1-5) -> "))
+                                        try:
+                                            rounding=int(rounding)
+                                            if rounding not in [0,1,2,3,4,5]:
+                                                if rounding<0:
+                                                    print(" Số vừa nhập không hợp lệ!")
+                                                    time.sleep(1)
+                                                elif rounding>5:
+                                                    print(" Giá trị vượt quá giới hạn (Giá trị phải nhỏ hơn/bằng 5)")
+                                                    time.sleep(1)
+                                        except ValueError:
+                                            print(' Lỗi cú pháp!')
+                                            time.sleep(1)
+                                        if rounding in [1,2,3,4,5]:
+                                            roundtemp=str(rounding)
+                                            with open("Data/RoundingValue.log","w") as m1:
+                                                m1.write(roundtemp)
+                                            TaskComplete()
                         elif mathsettingsinput==2:
                             subtractionexit=False
                             while subtractionexit==False:
@@ -1080,17 +1074,17 @@ try:
                                         with open("Data/AllowNegativeResult.log","w") as m1:
                                             m1.write(DKTruNhap) 
                                         TaskComplete()  
-                elif inputexpect==5:
+                elif inputexpect==4:
                     TitlePrint()
                     print("     THÔNG TIN HỆ THỐNG:")
                     print('')
-                    print(f"        + Tên thiết bị: {platform.node()}")
+                    print(f"     - Tên thiết bị: {platform.node()}")
                     print('')
-                    print(f"        + Kiến trúc vi xử lý: {platform.machine()}")
+                    print(f"     - Kiến trúc vi xử lý: {platform.machine()}")
                     print('')
-                    print(f"        + Tên hệ điều hành: {platform.system()}")
+                    print(f"     - Tên hệ điều hành: {platform.system()}")
                     print('')
-                    print(f"        + Bản dựng: {platform.version()}")
+                    print(f"     - Bản dựng: {platform.version()}")
                     print('')
                     print("     Nhấn phím Enter để quay lại")
                     print('')
@@ -1240,7 +1234,7 @@ try:
                                 print('')
                                 print(f'     [1]: Kiểu chữ (Hiện tại: {textstyleviet})')
                                 print('')
-                                print(f'     [2]: Độ đậm nhạt của chữ (Hiện tại: {textshadeviet.title()})')
+                                print(f'     [2]: Độ đậm nhạt của chữ (Hiện tại: {textshadeviet})')
                                 print('')
                                 print(f'     [3]: Màu chữ (Hiện tại: {textcolorviet})')
                                 print('')
@@ -1399,7 +1393,7 @@ try:
                                             elif textcolorselect==8:
                                                 textcolortemp='White'
                                             if textcolortemp==bgcolorchoice:
-                                                print('Màu chữ bị trùng với màu nền!')
+                                                print(' Màu chữ bị trùng với màu nền!')
                                                 time.sleep(1)
                                                 textcolorexit=False                   
                                             else:
@@ -1417,9 +1411,9 @@ try:
                                 print('')
                                 print('     [0]: Quay lại')
                                 print('')
-                                print(f'     [1]: Độ đậm nhạt của nền (Hiện tại: {bgshadeviet.title()})')
+                                print(f'     [1]: Độ đậm nhạt của nền (Hiện tại: {bgshadeviet})')
                                 print('')
-                                print(f'     [2]: Màu nền (Hiện tại: {bgcolorviet.title()})')
+                                print(f'     [2]: Màu nền (Hiện tại: {bgcolorviet})')
                                 print('')
                                 print(f'{null:-<65}')
                                 print('')
@@ -1532,7 +1526,7 @@ try:
                                             elif bgcolorselect==8:
                                                 bgcolortemp='White'
                                             if textcolorchoice==bgcolortemp:
-                                                print('Màu nền trùng với màu chữ!')
+                                                print(' Màu nền trùng với màu chữ!')
                                                 time.sleep(1)
                                             else:    
                                                 bgcolorchoice=bgcolortemp
@@ -1546,7 +1540,7 @@ try:
                             TitlePrint()
                             print("     LƯU Ý:")
                             print('')
-                            print("* Bạn sẽ KHÔI PHỤC TẤT CẢ cài đặt giao diện về mặc định!")
+                            print("  Bạn sẽ KHÔI PHỤC TẤT CẢ cài đặt giao diện về mặc định!")
                             print("  Bạn chắc chắn muốn tiếp tục không?")
                             print('')
                             print("     [0]: Không")
@@ -1602,11 +1596,11 @@ try:
                                 with open("Data/BGColorSave.log","w") as m1:
                                     m1.write(bgcolorchoice)
                                 TaskComplete()
-                elif inputexpect==4:
+                elif inputexpect==3:
                     TitlePrint()
                     print("     THÔNG TIN PHẦN MỀM:")
                     print('')
-                    print("     - Phiên bản 1.4.3")
+                    print("     - Phiên bản 1.4.4")
                     print('')
                     print(f'     - Phiên bản Python: {platform.python_version()}')
                     print('')
@@ -1614,82 +1608,6 @@ try:
                     print('')
                     print(f"{null:-<65}")
                     input()
-                elif inputexpect==3:
-                   while viewsettingsexit==False: 
-                        ApplySettings()
-                        TitlePrint()
-                        print("     XEM CÀI ĐẶT:")
-                        print('')
-                        print('     [0]: Thoát')
-                        print('')
-                        print('     [1]: Cài đặt giao diện')
-                        print('')
-                        print('     [2]: Cài đặt toán học')
-                        print('')
-                        print(f"{null:-<65}")
-                        print("")
-                        viewchoice=str(input(' Lựa chọn (0-2) -> '))
-                        try:
-                            viewchoice=int(viewchoice)
-                            if viewchoice not in [0,1,2]:
-                                print(" Số vừa nhập không hợp lệ!")
-                                time.sleep(1)
-                        except ValueError:
-                            print(" Lỗi cú pháp!")
-                            time.sleep(1)
-                        if viewchoice==0:
-                            viewsettingsexit=True
-                        elif viewchoice==1:
-                            TitlePrint()
-                            print("                     CÀI ĐẶT GIAO DIỆN:")
-                            print('')
-                            print("           --------------- Chữ: ---------------")
-                            print('')
-                            print(f"           - Kiểu chữ: {textstyleviet}")
-                            print('')
-                            print(f"           - Độ đậm nhạt của chữ: {textshadeviet}")
-                            print('')
-                            print(f"           - Màu chữ: {textcolorviet}")
-                            print('')
-                            print("           -------------- Nền: ---------------")
-                            print('')
-                            print(f"           - Độ đậm nhạt của nền: {bgshadeviet}")
-                            print('')
-                            print(f"           - Màu nền: {bgcolorviet}")
-                            print('')
-                            print("Nhấn phím Enter để quay lại")
-                            print('')
-                            print(f'{null:-<65}')
-                            input()
-                        elif viewchoice==2:
-                            TitlePrint()
-                            print("                       CÀI ĐẶT TOÁN HỌC:")
-                            print('')
-                            print("           --------------- Phép cộng ---------------")
-                            print('')
-                            print('                 - Cài đặt không tồn tại')
-                            print('')
-                            print("           --------------- Phép trừ  ---------------")
-                            print('')
-                            print(f"                - Cho phép kết quả âm: {DKTru}")
-                            print('')
-                            print("           --------------- Phép nhân ---------------")
-                            print('')
-                            print('                 - Cài đặt không tồn tại')
-                            print('')
-                            print("           --------------- Phép chia ---------------")
-                            print('')
-                            print(f"                - Cho phép kết quả thập phân: {DKthapphan}")
-                            print('')
-                            if DKthapphan=="Tắt":
-                                print("                - Làm tròn đến hàng thập phân thứ (Tắt)")
-                            else:
-                                print(f"               - Làm tròn đến hàng thập phân thứ {rounding}")
-                            print('')
-                            print("Nhấn phím Enter để quay lại")
-                            print('')
-                            print(f'{null:-<65}')
-                            input()
         elif pt==1:
             dau="+"
             phep='cộng'
@@ -1791,21 +1709,24 @@ try:
                                                     print('')
                                                     if pt==2:
                                                         print(f"     + Cho phép tạo phép tính với kết quả âm: {DKTru}")
+                                                        print('')
                                                     elif pt==4:
                                                         print(f"     + Cho phép tạo phép tính với kết quả thập phân: {DKthapphan}")
-                                                        print('')    
+                                                        print('')
                                                         if DKthapphanNhap.title()=='True':
                                                             print(f"     + Làm tròn tới số thập phân thứ {rounding}")
                                                             print('')
                                                     print(f"     Cài đặt này ổn với bạn không?")
                                                     print('')
-                                                    print("     [0]: Không")
+                                                    print("     [0]: Quay lại")
                                                     print('')
                                                     print("     [1]: Có")
                                                     print('')
+                                                    print('     [2]: Không')
+                                                    print('')
                                                     print(f"{null:-<65}")
                                                     print('')
-                                                    confirminput=str(input(" Lựa chọn (0-1) -> "))
+                                                    confirminput=str(input(" Lựa chọn (0-2) -> "))
                                                     if DKthapphan.title()=='Bật' and pt==4 and confirminput=='1':
                                                         os.system(clrscr)
                                                         TitlePrint()
@@ -1837,12 +1758,14 @@ try:
                                                     ca=0
                                                     try:
                                                         confirminput=int(confirminput)
-                                                        if confirminput==0:
+                                                        if confirminput==2:
                                                             confirmsettings=True
                                                             ainputexit=True
                                                             binputexit=True
                                                             settingsexit=True
-                                                        elif confirminput not in [0,1]:
+                                                        elif confirminput==0:
+                                                            confirmsettings=True
+                                                        elif confirminput not in [0,1,2]:
                                                             print(' Số vừa nhập không hợp lệ!')
                                                             time.sleep(1)
                                                         os.system(clrscr)
@@ -1961,6 +1884,7 @@ try:
                                                                             time.sleep(1)
                                                                 except ValueError:
                                                                     print(" Lỗi cú pháp!")
+                                                                    time.sleep(1)
                                                     except ValueError:
                                                         print(' Lỗi cú pháp!')
                                                         time.sleep(1)
