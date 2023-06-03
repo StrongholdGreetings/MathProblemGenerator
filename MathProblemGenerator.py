@@ -1,23 +1,57 @@
-import os,random,time,sys,platform 
-from colorama import Fore, Back, Style, init, AnsiToWin32
+import platform,os,random,time,sys
 null=""
-appversion='v1.4.4'
-if platform.system()=="Windows":
-    clrscr='cls'
-else:
-    clrscr='clear'
+clrscr='cls' if platform.system()=="Windows" else 'clear'
+def TitlePrint():
+    os.system(clrscr)
+    print("")
+    print("                 TRÌNH TẠO PHÉP TOÁN NGẪU NHIÊN")
+    print("")
+    print(f"{null:-<65}")
+    print("")
+appversion='v1.4.5'
+devoption=False
+mathdata=["Bật","Bật","Bật","Bật"]
 def ResizeWindows():
     if platform.system()=='Windows':
         os.system("mode con cols=65 lines=32")
+def BeginBSOD():
+    print(Back.BLUE+Fore.WHITE+"Error Detected")
+    os.system(clrscr)
+    time.sleep(0.05)
+    print("A problem has been detected and MathProblemGenerator has been shut down to prevent damage to this software")
+    time.sleep(0.05)
+    print("")
+    time.sleep(0.05)
+    print("The problem seems to be caused by the following: PY.EXE")
+    time.sleep(0.05)
+    print("")
+    time.sleep(0.05)
 ResizeWindows()
+TitlePrint()
+print("             Đang khởi động các thành phần cần thiết.")
+print("")
+print(f"{null:-<65}")
+def ConnectionFailed():
+    print("           Hình như PC này chưa kết nối đến Internet!")
+    print("")
+    print("           Hãy kết nối PC này vào Internet và thử lại!")
+    print('')
+    print('            Bây giờ thì hãy nhấn phím Enter để thoát')
+    print('')
+    input(f'{null:-<65}')
+def LoadingScreen():
+    TitlePrint()
+    print("                            Đang tải...")
+    print('')
+    print("             Đừng bấm phím Enter trong thời điểm này!")
+    print("")
+    print(f"{null:-<65}")
 try:
     try:
         import requests
+        requestesrequired=False
     except ModuleNotFoundError:
-        if platform.system()=='Windows':
-            os.system('py -m pip install requests')
-        else:
-            os.system('pip install requests')
+        requestsrequired=True
     try:
         from colorama import Fore, Back, Style, init, AnsiToWin32
     except ModuleNotFoundError:
@@ -27,441 +61,245 @@ try:
             os.system('pip install colorama')
 except KeyboardInterrupt:
     sys.exit()
-def TitlePrint():
-    os.system(clrscr)
-    print("")
-    print("                 TRÌNH TẠO PHÉP TOÁN NGẪU NHIÊN")
-    print("")
-    print(f"{null:-<65}")
-    print("")
 def TaskComplete():
     TitlePrint()
     print("     Cài đặt được lưu thành công!")
     print("     Thay đổi sẽ được thiết lập khi bấm phím Enter")
     print("     Nhấn phím Enter để tiếp tục")
     print('')
-    print(f"{null:-<65}")
-    input()
-RetryVerify=True
+    input(f"{null:-<65}")
+mainloop=True
 enable=True
-rounding=3
 btd=0
-textstylechoice='a'
-textshadechoice='a'
-textcolorchoice='a'
-bgcolorchoice='a'
-bgshadechoice='a'
 inputexpect=3108
 try:
     def exitprogram():
         os.system(clrscr)
-        global RetryVerify,settingsexit,confirmsettings,ainputexit,binputexit
+        global settingsexit,confirmsettings,ainputexit,binputexit
         TitlePrint()
         print('                        Đang thoát...')
         print('')
         print(f'{null:-<65}')
         time.sleep(1)
-        settingsexit=True
-        confirmsettings=True
-        ainputexit=True
-        binputexit=True
-        RetryVerify=False
+        sys.exit()
+    default=["Normal","Normal","White","Normal","Black","False","False","3","False","False"]
+    randomcolor=['Black','Red','Green','Blue','Yellow','Magenta','Cyan','White']
     def FileVerify():
-        global FileNotUsed,TextStyle,TextShade,TextColor,BGShade,BGColor,Negative,Fraction,RoundingError,errorlist,errorloop,UIError,inputexpect
-        FileNotUsed=False
-        errorloop=True
-        TextStyle=0
-        TextShade=0
-        TextColor=0
-        BGShade=0
-        BGColor=0
-        Negative=0
-        Fraction=0
-        RoundingError=0
-        MathError=False
-        UIError=False
-        if os.path.isdir("Data")==False:
-            os.mkdir("Data")
+        global data
         try:
-            a=open("Data/TextStyleSave.log","r")
-            b=a.read()
-            if b.title() not in ["Dim","Bright","Normal","Special"]:
-                with open('Data/TextStyleSave.log','w') as a:
-                    a.write("Normal")
-                FileNotUsed=True
-                TextStyle=1
-                UIError=True
+            error=False
+            a=open("SaveFile.txt","r")
+            data=a.readlines()
+            try:
+                if data[0].removesuffix("\n") not in ["Dim","Normal",'Bright','Special']:#0
+                    data[0]=default[0]+"\n"
+                    error=True
+                if data[1].removesuffix("\n") not in ["Normal",'Light']:#1
+                    data[1]=default[1]+"\n"
+                    error=True
+                if data[2].removesuffix("\n") not in randomcolor:#2
+                    data[2]=default[2]+"\n"
+                    error=True
+                if data[3].removesuffix("\n") not in ["Normal","Light"]:#3
+                    data[3]=default[3]+"\n"
+                    error=True
+                if data[4].removesuffix("\n") not in randomcolor:#4
+                    data[4]=default[4]+"\n"
+                    error=True
+                if data[5].removesuffix("\n") not in ["True","False"]:#5
+                    data[5]=default[5]+"\n"
+                    error=True
+                if data[6].removesuffix("\n") not in ["True","False"]:#6
+                    data[6]=default[6]+"\n"
+                    error=True
+                if data[7].removesuffix("\n") not in ["1","2","3","4","5"]:#7
+                    data[7]=default[7]+"\n"
+                    error=True
+                if data[8].removesuffix("\n") not in ["True","False"]:#8
+                    data[8]=default[8]+"\n"
+                    error=True
+                if data[9].removesuffix("\n") not in ["True","False"]:#9
+                    data[9]=default[9]+"\n"
+                    error=True
+                if error==True:
+                    with open("SaveFile.txt","w") as f:
+                        for lines in data:
+                            f.write(lines)
+            except IndexError:
+                with open("SaveFile.txt","w") as f:
+                    for lines in default:
+                        f.write(lines)
+                        f.write('\n')
         except FileNotFoundError:
-            with open('Data/TextStyleSave.log','w') as a:
-                    a.write("Normal")
-            FileNotUsed=True
-            TextStyle=2
-            UIError=True
-        try:
-            a=open("Data/TextShadeSave.log","r")
-            b1=a.read()
-            if b1.title() not in ["Light","Normal"]:
-                with open('Data/TextShadeSave.log','w') as a:
-                    a.write("Normal")
-                FileNotUsed=True
-                TextShade=1
-                UIError=True
-        except FileNotFoundError:
-            with open('Data/TextShadeSave.log','w') as a:
-                a.write("Normal")
-            FileNotUsed=True
-            TextShade=2
-            UIError=True
-        try:
-            a=open("Data/TextColorSave.log","r")
-            b2=a.read()
-            if b2.title() not in ["White","Red","Black","Green","Yellow","Blue","Magenta","Cyan"]:
-                with open('Data/TextColorSave.log','w') as a:
-                    a.write("White")
-                FileNotUsed=True
-                TextColor=1
-                UIError=True
-        except FileNotFoundError:
-            with open('Data/TextColorSave.log','w') as a:
-                    a.write("White")
-            FileNotUsed=True
-            TextColor=2
-            UIError=True
-        try:
-            a=open("Data/BGShadeSave.log","r")
-            b3=a.read()
-            if b3.title() not in ["Normal","Light"]:
-                with open('Data/BGShadeSave.log','w') as a:
-                    a.write("Normal")
-                FileNotUsed=True
-                BGShade=1
-                UIError=True
-        except FileNotFoundError:
-            with open('Data/BGShadeSave.log','w') as a:
-                    a.write("Normal")
-            FileNotUsed=True
-            BGShade=2
-            UIError=True
-        try:
-            a=open("Data/BGColorSave.log","r")
-            b4=a.read()
-            if b4.title() not in ["White","Red","Black","Green","Yellow","Blue","Magenta","Cyan"]:
-                with open('Data/BGColorSave.log','w') as a:
-                    a.write("Black")
-                FileNotUsed=True
-                BGColor=1
-                UIError=True
-        except FileNotFoundError:
-            with open('Data/BGColorSave.log','w') as a:
-                    a.write("Black")
-            FileNotUsed=True
-            BGColor=2
-            UIError=True
-        try:
-            a=open("Data/AllowNegativeResult.log","r")
-            b5=a.read()
-            if b5.title() not in ["True", "False"]:
-                with open('Data/AllowNegativeResult.log','w') as a:
-                    a.write("False")
-                FileNotUsed=True
-                Negative=1
-                MathError=True
-        except FileNotFoundError:
-            with open('Data/AllowNegativeResult.log','w') as a:
-                    a.write("False")
-            FileNotUsed=True
-            Negative=2
-            MathError=True
-        try:
-            a=open("Data/AllowFractionResult.log","r")
-            b6=a.read()
-            if b5.title() not in ["True", "False"]:
-                with open('Data/AllowFractionResult.log','w') as a:
-                    a.write("False")
-                Fraction=1
-                MathError=True
-        except FileNotFoundError:
-            with open('Data/AllowFractionResult.log','w') as a:
-                    a.write("False")
-            FileNotUsed=True
-            Fraction=2
-            MathError=True
-        try:
-            a=open("Data/RoundingValue.log","r")
-            b6=a.read()
-            if b6 not in ["0","1","2","3","4","5"]:    
-                with open('Data/RoundingValue.log','w') as a:
-                    a.write("3")
-                FileNotUsed=True
-                RoundingError=1
-                MathError=True
-        except FileNotFoundError:
-            with open('Data/RoundingValue.log','w') as a:
-                    a.write("3")
-            FileNotUsed=True
-            RoundingError=3
-            MathError=True
-        if FileNotUsed==True:
-            while errorloop==True:
-                os.system(clrscr)
-                print('')
-                print("                       TRÌNH KIỂM TRA FILE")
-                print('')
-                print(f"{null:-<65}")
-                print('')
-                print("  Một số cài đặt của bạn đã bị chuyển về mặc định.")
-                print("  Lý do: Không thể tìm thấy file log/Nội dung file không hợp lệ")
-                print("  Tất cả file log bị mất hoặc thay đổi đã được phục hồi.")
-                print('')
-                print("     [0]: Tiếp tục chạy")
-                print('')
-                print("     [1]: Danh sách lỗi")
-                print("")
-                print(f"{null:-<65}")
-                print("")
-                errorlist=str(input(" Lựa chọn (0-1) -> "))
-                try:
-                    errorlist=int(errorlist)
-                    if errorlist==1:
-                        os.system(clrscr)
-                        print('')
-                        print("                       TRÌNH KIỂM TRA FILE")
-                        print('')
-                        print(f"{null:-<65}")
-                        print('')
-                        print("     DANH SÁCH LỖI:")
-                        print("")
-                        print("     * Giao Diện")
-                        print('')
-                        if UIError==True:
-                            if TextStyle==1: #1
-                                print("     - TextStyleSave.log: Nội dung tệp không hợp lệ")
-                            elif TextStyle==2:
-                                print("     - TextStyleSave.log: Bị di chuyển hoặc xóa đi")
-                            else:
-                                print("     - TextStyleSave.log: Không gặp vấn đề")
-                            print('')
-                            if TextShade==1: #2
-                                print("     - TextShadeSave.log: Nội dung tệp không hợp lệ")
-                            elif TextShade==2:
-                                print("     - TextShadeSave.log: Bị di chuyển hoặc xóa đi")
-                            else:
-                                print("     - TextShadeSave.log: Không gặp vấn đề")
-                            print('')
-                            if TextColor==1: #3
-                                print("     - TextColorSave.log: Nội dung tệp không hợp lệ")
-                            elif TextColor==2:
-                                print("     - TextColorSave.log: Bị di chuyển hoặc xóa đi")
-                            else:
-                                print("     - TextColorSave.log: Không gặp vấn đề")
-                            print('')
-                            if BGShade==1: #4
-                                print("     - BGShadeSave.log: Nội dung tệp không hợp lệ")
-                            elif BGShade==2:
-                                print("     - BGShadeSave.log: Bị di chuyển hoặc xóa đi")
-                            else:
-                                print("     - BGShadeSave.log: Không gặp vấn đề")
-                            print('')
-                            if BGColor==1: #5
-                                print("     - BGColorSave.log: Nội dung tệp không hợp lệ")
-                            elif BGColor==2:
-                                print("     - BGColorSave.log: Bị di chuyển hoặc xóa đi")
-                            else:
-                                print("     - BGColorSave.log: Không gặp vấn đề")
-                            print('')
-                        else:
-                            print(" -Toàn bộ file liên quan đều không gặp vấn đề")
-                            print('')
-                        print("     * Toán Học")
-                        print('')
-                        if MathError==True:
-                            if Negative==1: #6
-                                print("     - AllowNegativeResult.log: Nội dung tệp không hợp lệ")
-                            elif Negative==2:
-                                print("     - AllowNegativeResult.log: Bị di chuyển hoặc xóa đi")
-                            else:
-                                print("     - AllowNegativeResult.log: Không gặp vấn đề")
-                            print('')
-                            if Fraction==1:
-                                print("     - AllowFractionResult.log: Nội dung tệp không hợp lệ")
-                            elif Fraction==2:
-                                print("     - AllowFractionResult.log: Bị di chuyển hoặc xóa đi")
-                            else:
-                                print("     - AllowFractionResult.log: Không gặp vấn đề")
-                            print('')
-                            if RoundingError in [1,2]:
-                                print("     - RoundingValue.log: Nội dung tệp không hợp lệ")
-                            elif RoundingError==3:
-                                print("     - RoundingValue.log: Bị di chuyển hoặc xóa đi")
-                            else:
-                                print("     - RoundingValue.log: Không gặp vấn đề")
-                            print('')
-                        else:
-                            print("     - Toàn bộ file liên quan đều không gặp vấn đề")
-                            print('')
-                        print(f'{null:-<65}')
-                        print("")
-                        input("Nhấn phím Enter để tiếp tục chạy chương trình.")
-                        errorloop=False
-                    elif errorlist==0:
-                        errorloop=False
-                    else:
-                        print(" Số vừa nhập không hợp lệ!")
-                except ValueError:
-                    print(" Lỗi cú pháp! Vui lòng nhập lại")
-                    time.sleep(1)
-        else:
-            if inputexpect==5:
-                os.system(clrscr)
-                print('')
-                print("                       TRÌNH KIỂM TRA FILE")
-                print('')
-                print(f"{null:-<65}")
-                print('')
-                print("              Tất cả các file đều không gặp vấn đề.")
-                print("                  Nhấn phím Enter để quay lại.")
-                print('')
-                print(f'{null:-<65}')
-                input()
+            with open("SaveFile.txt","w") as f:
+                for lines in default:
+                    f.write(lines)
+                    f.write('\n')
+    FileVerify()
     def ApplySettings():
         global textstyleviet,textshadeviet,textcolorviet,bgshadeviet,bgcolorviet,DKTru,DKTruDisplay
-        if textstylechoice.title()=="Normal":
+        LogFileRead()
+        if textstylechoice.title()=="Normal"+"\n":
             print(Style.NORMAL)
             textstyleviet='Thường'
-        elif textstylechoice.title()=="Dim":
+        elif textstylechoice.title()=="Dim"+"\n":
             print(Style.NORMAL)
             print(Style.DIM)
             textstyleviet='Mờ'
-        elif textstylechoice.title()=="Bright":
+        elif textstylechoice.title()=="Bright"+"\n":
             print(Style.NORMAL)
             print(Style.BRIGHT)
             textstyleviet='Sáng'
-        elif textstylechoice.title()=='Special':
+        elif textstylechoice.title()=='Special'+"\n":
             print(Style.DIM)
             print(Style.BRIGHT)
             textstyleviet='Đặc biệt'
-        if textshadechoice.title()=='Light':
+        if textshadechoice.title()=='Light'+"\n":
             textshadeviet='Nhạt'
-            if textcolorchoice.title()=='Black':
+            if textcolorchoice.title()=='Black'+"\n":
                 print(Fore.LIGHTBLACK_EX)
                 textcolorviet='Đen'
-            if textcolorchoice.title()=='Red':
+            if textcolorchoice.title()=='Red'+"\n":
                 print(Fore.LIGHTRED_EX)
                 textcolorviet='Đỏ'
-            if textcolorchoice.title()=='Green':
+            if textcolorchoice.title()=='Green'+"\n":
                 print(Fore.LIGHTGREEN_EX)
                 textcolorviet='Xanh lục'
-            if textcolorchoice.title()=='Yellow':
+            if textcolorchoice.title()=='Yellow'+"\n":
                 print(Fore.LIGHTYELLOW_EX)
                 textcolorviet='Vàng'
-            if textcolorchoice.title()=='Blue':
+            if textcolorchoice.title()=='Blue'+"\n":
                 print(Fore.LIGHTBLUE_EX)
                 textcolorviet='Xanh lam'
-            if textcolorchoice.title()=='Magenta':
+            if textcolorchoice.title()=='Magenta'+"\n":
                 print(Fore.LIGHTMAGENTA_EX)
                 textcolorviet='Màu cánh sen'
-            if textcolorchoice.title()=='Cyan':
+            if textcolorchoice.title()=='Cyan'+"\n":
                 print(Fore.LIGHTCYAN_EX)
                 textcolorviet='Xanh lơ'
-            if textcolorchoice.title()=='White':
+            if textcolorchoice.title()=='White'+"\n":
                 print(Fore.LIGHTWHITE_EX)
                 textcolorviet='Trắng'
         else:
             textshadeviet='Thường'
-            if textcolorchoice.title()=='Black':
+            if textcolorchoice.title()=='Black'+"\n":
                 print(Fore.BLACK)
                 textcolorviet='Đen'
-            if textcolorchoice.title()=='Red':
+            if textcolorchoice.title()=='Red'+"\n":
                 print(Fore.RED)
                 textcolorviet='Đỏ'
-            if textcolorchoice.title()=='Green':
+            if textcolorchoice.title()=='Green'+"\n":
                 print(Fore.GREEN)
                 textcolorviet='Xanh lục'
-            if textcolorchoice=='Yellow':
+            if textcolorchoice=='Yellow'+"\n":
                 print(Fore.YELLOW)
                 textcolorviet='Vàng'
-            if textcolorchoice.title()=='Blue':
+            if textcolorchoice.title()=='Blue'+"\n":
                 print(Fore.BLUE)
                 textcolorviet='Xanh lam'
-            if textcolorchoice=='Magenta':
+            if textcolorchoice=='Magenta'+"\n":
                 print(Fore.MAGENTA)
                 textcolorviet='Màu cánh sen'
-            if textcolorchoice.title()=='Cyan':
+            if textcolorchoice.title()=='Cyan'+"\n":
                 print(Fore.CYAN)
                 textcolorviet='Xanh lơ'
-            if textcolorchoice.title()=='White':
+            if textcolorchoice.title()=='White'+"\n":
                 print(Fore.WHITE)
                 textcolorviet='Trắng'
-        if bgshadechoice.title()=='Light':
+        if bgshadechoice.title()=='Light'+"\n":
             bgshadeviet='Nhạt'
-            if bgcolorchoice.title()=='Black':
+            if bgcolorchoice.title()=='Black'+"\n":
                 print(Back.LIGHTBLACK_EX)
                 bgcolorviet='Đen'
-            if bgcolorchoice.title()=='Red':
+            if bgcolorchoice.title()=='Red'+"\n":
                 print(Back.LIGHTRED_EX)
                 bgcolorviet='Đỏ'
-            if bgcolorchoice.title()=='Green':
+            if bgcolorchoice.title()=='Green'+"\n":
                 print(Back.LIGHTGREEN_EX)
                 bgcolorviet='Xanh lục'
-            if bgcolorchoice.title()=='Yellow':
+            if bgcolorchoice.title()=='Yellow'+"\n":
                 print(Back.LIGHTYELLOW_EX)
                 bgcolorviet='Vàng'
-            if bgcolorchoice.title()=='Blue':
+            if bgcolorchoice.title()=='Blue'+"\n":
                 print(Back.LIGHTBLUE_EX)
                 bgcolorviet='Xanh lam'
-            if bgcolorchoice.title()=='Magenta':
+            if bgcolorchoice.title()=='Magenta'+"\n":
                 print(Back.LIGHTMAGENTA_EX)
                 bgcolorviet='Màu cánh sen'
-            if bgcolorchoice.title()=='Cyan':
+            if bgcolorchoice.title()=='Cyan'+"\n":
                 print(Back.LIGHTCYAN_EX)
                 bgcolorviet='Xanh lơ'
-            if bgcolorchoice.title()=='White':
+            if bgcolorchoice.title()=='White'+"\n":
                 print(Back.LIGHTWHITE_EX)
                 bgcolorviet='Trắng'
         else:
             bgshadeviet='Thường'
-            if bgcolorchoice=='Black':
+            if bgcolorchoice=='Black'+"\n":
                 print(Back.BLACK)
                 bgcolorviet='Đen'
-            if bgcolorchoice=='Red':
+            if bgcolorchoice=='Red'+"\n":
                 print(Back.RED)
                 bgcolorviet='Đỏ'
-            if bgcolorchoice=='Green':
+            if bgcolorchoice=='Green'+"\n":
                 print(Back.GREEN)
                 bgcolorviet='Xanh lục'
-            if bgcolorchoice=='Yellow':
+            if bgcolorchoice=='Yellow'+"\n":
                 print(Back.YELLOW)
                 bgcolorviet='Vàng'
-            if bgcolorchoice=='Blue':
+            if bgcolorchoice=='Blue'+"\n":
                 print(Back.BLUE)
                 bgcolorviet='Xanh lam'
-            if bgcolorchoice=='Magenta':
+            if bgcolorchoice=='Magenta'+"\n":
                 print(Back.MAGENTA)
                 bgcolorviet='Màu cánh sen'
-            if bgcolorchoice=='Cyan':
+            if bgcolorchoice=='Cyan'+"\n":
                 print(Back.CYAN)
                 bgcolorviet='Xanh lơ'
-            if bgcolorchoice=='White':
+            if bgcolorchoice=='White'+"\n":
                 print(Back.WHITE)
                 bgcolorviet='Trắng'
     def LogFileRead():
-        global t1,t2,t3,bg1,bg2,m1,textstylechoice,textshadechoice,textcolorchoice,bgshadechoice,bgcolorchoice,DKTruNhap,DKthapphanNhap,roundtemp
-        t1=open("Data/TextStyleSave.log","r")
-        textstylechoice=t1.read()
-        t2=open("Data/TextShadeSave.log","r")
-        textshadechoice=t2.read()
-        t3=open("Data/TextColorSave.log","r")
-        textcolorchoice=t3.read()
-        bg1=open("Data/BGShadeSave.log","r")
-        bgshadechoice=bg1.read()
-        bg2=open("Data/BGColorSave.log","r")
-        bgcolorchoice=bg2.read()
-        m1=open("Data/AllowNegativeResult.log","r")
-        DKTruNhap=m1.read()
-        m2=open("Data/AllowFractionResult.log","r")
-        DKthapphanNhap=m2.read()
-        m3=open("Data/RoundingValue.log","r")
-        roundtemp=m3.read()
+        global textstylechoice,textshadechoice,textcolorchoice,bgshadechoice,bgcolorchoice,DKTruNhap,DKthapphanNhap,roundtemp
+        global devdata,devoption,searchengine,bsod,bsodviet,logindex,data,bsodbool
+        try:
+            with open("SaveFile.txt","r") as b:
+                data=b.readlines()
+                logindex=len(default)-1
+            textstylechoice=data[0]
+            textshadechoice=data[1]
+            textcolorchoice=data[2]
+            bgshadechoice=data[3]
+            bgcolorchoice=data[4]
+            DKTruNhap=data[5]
+            DKthapphanNhap=data[6]
+            roundtemp=data[7]
+            devdata=data[8]   
+            bsod=data[9]
+            if devdata=="True"+"\n":
+                devoption=True
+            else:
+                devoption=False
+            if bsod=='True'+"\n":
+                bsodviet='Bật'
+                bsodbool=True
+            elif bsod=='False'+"\n":
+                bsodviet='Tắt'
+                bsodbool=False
+        except IndexError:
+            with open("SaveFile.txt","w") as f:
+                for lines in default:
+                    f.write(lines)
+                    f.write('\n')
+            LogFileRead()
+    def SetColorToDefault():
+        data[0]=default[0]+"\n"
+        data[1]=default[1]+"\n"
+        data[2]=default[2]+"\n"
+        data[3]=default[3]+"\n"
+        data[4]=default[4]+"\n"
+        with open("SaveFile.txt","w") as f:
+            for lines in data:
+                f.writelines(lines)
     def ColorMatchTest():
         global textcolorchoice
         global bgcolorchoice
@@ -478,57 +316,39 @@ try:
             print(f'{null:-<65}')
             print('')
             input("Nhấn phím Enter để tiếp tục!")
-            t3=open("Data/TextColorSave.log","w")
-            t3.write("White")
-            t3.close()
-            t3=open("Data/TextColorSave.log","r")
-            textcolorchoice=t3.read()
-            bg2=open("Data/BGColorSave.log","w")
-            bg2.write("Black")
-            bg2.close()
-            bg2=open("Data/BGColorSave.log","r")
-            bgcolorchoice=bg2.read()
+            SetColorToDefault()
+            ApplySettings()
     def BundleTest():
         FileVerify()
         LogFileRead()
         ColorMatchTest()
         ApplySettings()
     def MathApply():
-        global DKTru,DKthapphan,rounding
-        if DKTruNhap=='False':
+        global DKTru,DKthapphan,rounding,roundtemp
+        LogFileRead()
+        if DKTruNhap=='False'+"\n":
             DKTru="Tắt"
         else:
             DKTru="Bật"
-        if DKthapphanNhap=='False':
+        if DKthapphanNhap=='False'+"\n":
             DKthapphan='Tắt'
         else:
             DKthapphan='Bật'
-        rounding=int(roundtemp)
+        rounding=int(roundtemp.removesuffix("\n"))
     def TotallyApplySettings():
         for i in range (0,3):
             ApplySettings()
             i+=1
             os.system(clrscr)
-    def SetColorToDefault():
-        global t1,t2,t3,bg1,bg2
-        with open('Data/TextStyleSave.log','w') as t1:
-            t1.write("Normal")
-        with open('Data/TextShadeSave.log','w') as t2:
-            t2.write("Normal")
-        with open('Data/TextColorSave.log','w') as t3:
-            t3.write("White")
-        with open('Data/BGShadeSave.log','w') as bg1:
-            bg1.write("Normal")
-        with open('Data/BGColorSave.log','w') as bg2:
-            bg2.write("Black")
-    while RetryVerify==True:    
+    while mainloop:    
         ca=0
         nq=1
         BundleTest()
         MathApply()
         TotallyApplySettings()
         TitlePrint()
-        print('     [0]: Thoát chương trình'),'\n' #2 tab
+        print("     MÀN HÌNH CHÍNH\n")
+        print('     [0]: Thoát chương trình') #2 tab
         print('')
         print('     [1]: Cộng')
         print('')
@@ -538,15 +358,17 @@ try:
         print('')
         print('     [4]: Chia')
         print('')
-        print('     [5]: Cài đặt')
+        print('     [5]: Hỗn hợp')
+        print('')
+        print('     [6]: Cài đặt')
         print("")
         print(f'{null:-<65}')
         print('')
-        pt=str(input(" Lựa chọn (0-5) -> "))
+        pt=str(input(" Lựa chọn (0-6) -> "))
         settingsexit=False
         try:
             pt=int(pt)
-            if pt not in [0,1,2,3,4,5]:
+            if pt not in [0,1,2,3,4,5,6]:
                 print(' Số vừa nhập không hợp lệ!')
                 time.sleep(1)
         except ValueError:
@@ -566,17 +388,16 @@ try:
             try:
                 confirmexit=int(confirmexit)
                 if confirmexit==1:
-                    exitprogram() 
-                    RetryVerify=False
+                    exitprogram()
                 elif confirmexit not in [0,1]:
                     print(' Số vừa nhập không hợp lệ!')
                     time.sleep(1)
             except ValueError:
                 print(' Lỗi cú pháp!')
                 time.sleep(1)
-        if pt==5:
+        elif pt==6:
             while settingsexit==False:
-                TotallyApplySettings()
+                BundleTest()
                 TitlePrint()
                 print('     CÀI ĐẶT:')
                 print('')
@@ -590,24 +411,33 @@ try:
                 print('')
                 print('     [4]: Thông tin hệ thống')
                 print('')
-                print('     [5]: Kiểm tra file log')
-                print('')
-                print('     [6]: Cập nhật phần mềm')
+                print('     [5]: Cập nhật phần mềm')
                 print("")
+                if data[8]=="True"+"\n":
+                    print('     [6]: Tùy chọn nhà phát triển')
+                    print('')
                 print(f'{null:-<65}')
                 print('')
-                inputexpect=str(input(' Lựa chọn (0-6) -> '))
+                if devdata=="True"+"\n":
+                    inputexpect=str(input(' Lựa chọn (0-6) -> '))
+                else:
+                    inputexpect=str(input(' Lựa chọn (0-5) -> '))
                 uisettingsexit=False
                 mathsettingsexit=False
                 viewsettingsexit=False
                 mikuloop=True
                 commandloop=True
+                othertoolsloop=True
                 try:
                     inputexpect=int(inputexpect)
-                    if inputexpect not in [0,1,2,3,4,5,6,31082007]: 
+                    if devoption==False and inputexpect not in [0,1,2,3,4,5,310082007]:
+                        print(' Số vừa nhập không hợp lệ!')
+                        time.sleep(1)
+                    if inputexpect not in [0,1,2,3,4,5,6,31082007] and devdata=="True"+"\n":
                         print(' Số vừa nhập không hợp lệ!')
                         time.sleep(1)
                 except ValueError:
+                    LogFileRead()
                     if inputexpect.lower() in ['3.141592654','3,141592654','pi']:
                         os.system(clrscr)
                         TitlePrint()
@@ -646,6 +476,23 @@ try:
                         print('Lưu ý:')
                         print('Do bản chất của nó là một câu lệnh import, nó chỉ dùng được 1 lần trên mỗi lần chạy chương trình')
                         input('Nhấn phím Enter để thoát.')
+                    elif inputexpect in ['//allowdevoption=true','//allowdevoption=True']:
+                        data[8]="True"+"\n"
+                        with open("SaveFile.txt","w") as f:
+                            for lines in data:
+                                f.writelines(lines)
+                        devoption=True
+                        print(" Changes applied successfully!")
+                        time.sleep(1)
+                    elif inputexpect in ['//allowdevoption=false','//allowdevoption=False']:
+                        data[8]="False"+"\n"
+                        data[9]="False"+'\n'
+                        with open("SaveFile.txt","w") as f:
+                            for lines in data:
+                                f.writelines(lines)
+                        devoption=False
+                        print(" Changes applied successfully!")
+                        time.sleep(1)
                     else:
                         print(' Lỗi cú pháp!')
                         time.sleep(1)
@@ -677,10 +524,8 @@ try:
                                    os.system("mode con cols=65 lines=43")
                                os.system(clrscr)
                                print('')
-                               print("                  TRÌNH QUẢN LÝ EASTER EGG")
-                               print('')
+                               print("                  TRÌNH QUẢN LÝ EASTER EGG\n")
                                print(f"{null:-<65}")
-                               print(null)
                                print("⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⣴⠟⠋⢠⣴⣾⣿⡟⠋⠉⡳⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠑⠒⠦⢤⣄⡀⠀⣴⡟⠋⡀⢠⣬⣿⣿⡿⠳⣄⠀⠀⠀⠀")#1
                                print("⠀⠀⠀⠀⠀⠀⠀⠀⣴⣫⡾⠋⠀⣶⣿⢿⣿⣥⠄⠠⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣌⣩⣿⡯⠁⣬⣭⣽⣿⣿⡟⠁⠈⠉⠝⢦⠀⠀")#2
                                print("⠀⠀⠀⠀⠀⠀⠀⡼⣽⣟⡀⣠⣼⣿⣿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⠃⠀⢠⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠱⣄")#3
@@ -771,11 +616,211 @@ try:
                                time.sleep(1)
                        except ValueError:
                            if mikuinput.title()=='Mannequin':
+                            print("Enjoy!")
+                            time.sleep(1)
                             os.system('start \"\" https://www.youtube.com/watch?v=Q1_vm1TwYyU')
                            else:
                             print(' Lỗi cú pháp!')
                             time.sleep(1)
-                if inputexpect==6:
+                elif inputexpect==6 and devoption==True:
+                    devloop=True
+                    LogFileRead()
+                    while devloop:
+                        TitlePrint()
+                        print("     TUỲ CHỌN NHÀ PHÁT TRIỂN:")
+                        print("")
+                        print("     [0]: Quay lại")
+                        print('')
+                        print('     [1]: Xem giá trị đã lưu')
+                        print('')
+                        print("     [2]: Kiểm tra hiển thị")
+                        print("")
+                        print('     [3]: Cài đặt vui')
+                        print('')
+                        print(' * Khi tắt mục này, mọi thay đổi ở đây sẽ được trở về mặc định')
+                        print(f'{null:-<65}')
+                        print('')
+                        devinput=str(input(" Lựa chọn (0-3) -> "))
+                        try:
+                            devinput=int(devinput)
+                            if devinput not in [0,1,2,3]:
+                               print(' Số vừa nhập không hợp lệ!')
+                               time.sleep(1)
+                        except ValueError:
+                            print(' Lỗi cú pháp!')
+                            time.sleep(1)
+                        if devinput==0:
+                            devloop=False
+                        elif devinput==1:
+                            textcolorchoicedisplay=textcolorchoice.removesuffix("\n")
+                            textstylechoicedisplay=textstylechoice.removesuffix("\n")
+                            textshadechoicedisplay=textshadechoice.removesuffix("\n")
+                            bgcolorchoicedisplay=bgcolorchoice.removesuffix("\n")
+                            bgshadechoicedisplay=bgshadechoice.removesuffix("\n")
+                            DKTruNhapdisplay=DKTruNhap.removesuffix("\n")
+                            DKthapphanNhapdisplay=DKthapphanNhap.removesuffix("\n")
+                            roundtempdisplay=roundtemp.removesuffix("\n")
+                            bsoddisplay=bsod.removesuffix("\n")
+                            TitlePrint()
+                            print("     GIÁ TRỊ ĐÃ LƯU:")
+                            print("")
+                            print(f"     - TextStyleChoice: {textstylechoicedisplay}")
+                            print(f"     - TextShadeChoice: {textshadechoicedisplay}")
+                            print(f"     - TextColorChoice: {textcolorchoicedisplay}")
+                            print(f"     - BGShadeChoice: {bgshadechoicedisplay}")
+                            print(f"     - BGColorChoice: {bgcolorchoicedisplay}")
+                            print(f"     - AllowNegativeResult: {DKTruNhapdisplay}")
+                            print(f"     - AllowFractionResult: {DKthapphanNhapdisplay}")
+                            print(f"     - RoundingValue: {roundtempdisplay}")
+                            print("     - AllowDeveloperOption: True")
+                            print(f"     - BSODWhenCtrlC: {bsoddisplay}")
+                            print('')
+                            print('     Các giá trị này được lưu trong file log ở thư mục Data')
+                            print('')
+                            print('     Nhấn phím Enter để quay lại')
+                            print('')
+                            input(f'{null:-<65}')
+                        elif devinput==2:
+                            colortestloop=True
+                            while colortestloop:
+                                ApplySettings()
+                                TitlePrint()
+                                print("     KIỂM TRA HIỂN THỊ:")
+                                print("")
+                                print("     [0]: Quay lại")
+                                print("")
+                                print("     [1]: Hiển thị màu chữ")
+                                print("")
+                                print("     [2]: Hiển thị màu nền")
+                                print("")
+                                print("     [3]: Hiển thị kiểu chữ")
+                                print("")
+                                print("* Cài đặt màu sẽ tạm thời quay về mặc định sau khi chọn kiểm tra.")
+                                print("  Khi thoát kiểm tra, cài đặt màu sẽ trở về bình thường.\n")
+                                print(f"{null:-<65}")
+                                print("")
+                                colortestinput=str(input(" Lựa chọn (0-3) -> "))
+                                try:
+                                    colortestinput=int(colortestinput)
+                                    if colortestinput not in [0,1,2,3]:
+                                        print(' Số vừa nhập không hợp lệ!')
+                                        time.sleep(1)
+                                except ValueError:
+                                    print(' Lỗi cú pháp!')
+                                    time.sleep(1)
+                                if colortestinput==0:
+                                    colortestloop=False
+                                elif colortestinput==1:
+                                    print(Style.RESET_ALL)
+                                    TitlePrint()
+                                    print("      KIỂM TRA MÀU CHỮ")
+                                    print("")
+                                    print(Fore.WHITE+"      1. TRẮNG"+Style.RESET_ALL)
+                                    print(Fore.LIGHTWHITE_EX+"      2. TRẮNG (NHẠT)"+Style.RESET_ALL)
+                                    print(Fore.RED+"      3. ĐỎ"+Style.RESET_ALL)
+                                    print(Fore.LIGHTRED_EX+"      4. ĐỎ (NHẠT)"+Style.RESET_ALL)
+                                    print(Fore.GREEN+"      5. XANH LỤC"+Style.RESET_ALL)
+                                    print(Fore.LIGHTGREEN_EX+"      6. XANH LỤC (NHẠT)"+Style.RESET_ALL)
+                                    print(Fore.BLUE+"      7. XANH LAM"+Style.RESET_ALL)
+                                    print(Fore.LIGHTBLUE_EX+"      8. XANH LAM (NHẠT)"+Style.RESET_ALL)
+                                    print(Fore.CYAN+"      9. XANH LƠ (*)"+Style.RESET_ALL)
+                                    print(Fore.LIGHTCYAN_EX+"      10. XANH LƠ (NHẠT) (*)"+Style.RESET_ALL)
+                                    print(Fore.MAGENTA+"      11. MÀU CÁNH SEN (*)"+Style.RESET_ALL)
+                                    print(Fore.LIGHTMAGENTA_EX+"      12. MÀU CÁNH SEN (NHẠT) (*)"+Style.RESET_ALL)
+                                    print(Fore.YELLOW+"      13. VÀNG"+Style.RESET_ALL)
+                                    print(Fore.LIGHTYELLOW_EX+"      14. VÀNG (NHẠT)"+Style.RESET_ALL)
+                                    print('      '+Back.LIGHTBLACK_EX+Fore.BLACK+"15. ĐEN "+Style.RESET_ALL)
+                                    print(Style.RESET_ALL+Fore.LIGHTBLACK_EX+"      16. ĐEN (NHẠT)")
+                                    print(Style.RESET_ALL)
+                                    print(" -  Màu không thể được chọn ở đây.")
+                                    print(" -  Tên màu được lấy và dịch từ tên lệnh thực thi")
+                                    print("(*) Tên màu được dịch từ Wikipedia Tiếng Việt")
+                                    print('')
+                                    print('https://pypi.org/project/colorama/ sẽ có thêm thông tin chi tiết!')
+                                    print('Nhấn phím Enter để thoát')
+                                    print('')
+                                    input(f"{null:-<65}")
+                                    LoadingScreen()
+                                elif colortestinput==2:
+                                    print(Style.RESET_ALL)
+                                    TitlePrint()
+                                    print("      KIỂM TRA MÀU NỀN")
+                                    print("")
+                                    print("     "+Back.WHITE+Fore.BLACK+"1. TRẮNG"+Back.BLACK)
+                                    print("     "+Back.LIGHTWHITE_EX+"2. TRẮNG (NHẠT)"+Back.BLACK)
+                                    print("     "+Back.RED+"3. ĐỎ"+Back.BLACK)
+                                    print("     "+Back.LIGHTRED_EX+"4. ĐỎ (NHẠT)"+Back.BLACK)
+                                    print("     "+Back.GREEN+"5. XANH LỤC"+Back.BLACK)
+                                    print("     "+Back.LIGHTGREEN_EX+"6. XANH LỤC (NHẠT)"+Back.BLACK)
+                                    print("     "+Back.BLUE+"7. XANH LAM"+Back.BLACK)
+                                    print("     "+Back.LIGHTBLUE_EX+"8. XANH LAM (NHẠT)"+Back.BLACK)
+                                    print("     "+Back.CYAN+"9. XANH LƠ (*)"+Back.BLACK)
+                                    print("     "+Back.LIGHTCYAN_EX+"10. XANH LƠ (NHẠT) (*)"+Back.BLACK)
+                                    print("     "+Back.MAGENTA+"11. MÀU CÁNH SEN (*)"+Back.BLACK)
+                                    print("     "+Back.LIGHTMAGENTA_EX+"12. MÀU CÁNH SEN (NHẠT) (*)"+Back.BLACK)
+                                    print("     "+Back.YELLOW+"13. VÀNG"+Back.BLACK)
+                                    print("     "+Back.LIGHTYELLOW_EX+"14. VÀNG (NHẠT)"+Back.BLACK)
+                                    print("     "+Back.BLACK+Fore.WHITE+"15. ĐEN"+Back.BLACK)
+                                    print("     "+Back.LIGHTBLACK_EX+"16. ĐEN (NHẠT)"+Back.BLACK)
+                                    print(Style.RESET_ALL)
+                                    print(" -  Màu không thể được chọn ở đây.")
+                                    print(" -  Tên màu được lấy và dịch từ tên lệnh thực thi")
+                                    print("(*) Tên màu được dịch từ Wikipedia Tiếng Việt")
+                                    print('')
+                                    print('https://pypi.org/project/colorama/ sẽ có thêm thông tin chi tiết!')
+                                    print('Nhấn phím Enter để thoát')
+                                    print('')
+                                    input(f"{null:-<65}")
+                                    LoadingScreen()
+                                elif colortestinput==3:
+                                    print(Style.RESET_ALL)
+                                    TitlePrint()
+                                    print("      KIẺM TRA KIỂU CHỮ")
+                                    print('')
+                                    print(Style.DIM+Style.BRIGHT+"      1. ĐẶC BIỆT (Mờ + Sáng)")
+                                    print(Style.NORMAL+Style.DIM+"      2. MỜ")
+                                    print(Style.NORMAL+"      3. THƯỜNG")
+                                    print(Style.BRIGHT+"      4. SÁNG")
+                                    print('')
+                                    print(Style.RESET_ALL+"Lưu ý: Nếu bạn chọn kiểu 'sáng', màu chữ được tự động chuyển sang màu nhạt")
+                                    print("Hiện tại không rõ lý do lỗi này bắt nguồn từ đâu")
+                                    print('Nhấn phím Enter để thoát')
+                                    print('')
+                                    input(f"{null:-<65}")
+                                    LoadingScreen()
+                        elif devinput==3:
+                            funloop=True
+                            while funloop:
+                                LogFileRead()
+                                TitlePrint()
+                                print("     CÀI ĐẶT VUI:")
+                                print('')
+                                print('     [0]: Quay lại')
+                                print('')
+                                print(f'     [1]: Hiển thị BSOD khi gặp lỗi ({bsodviet})')
+                                print("")
+                                print(f"{null:-<65}")
+                                print("")
+                                funinput=str(input(" Lựa chọn (0-1) -> "))
+                                try:
+                                    funinput=int(funinput)
+                                    if funinput not in [0,1]:
+                                        print(' Số vừa nhập không hợp lệ!')
+                                        time.sleep(1)
+                                except ValueError:
+                                    print(' Lỗi cú pháp!')
+                                    time.sleep(1)
+                                if funinput==0:
+                                    funloop=False
+                                elif funinput==1:
+                                    if bsodbool==False:
+                                        data[9]="True"+"\n"
+                                    else:
+                                        data[9]="False"+"\n"
+                                    with open("SaveFile.txt","w") as a:
+                                        for lines in data:
+                                            a.writelines(lines)
+                elif inputexpect==5:
                     os.system(clrscr)
                     TitlePrint()
                     print("                       CẬP NHẬT PHẦN MỀM:")
@@ -856,13 +901,7 @@ try:
                         TitlePrint()
                         print('                       CẬP NHẬT PHẦN MỀM:')
                         print('')
-                        print("           Hình như PC này chưa kết nối đến Internet!")
-                        print("")
-                        print("           Hãy kết nối PC này vào Internet và thử lại!")
-                        print('')
-                        print('            Bây giờ thì hãy nhấn phím Enter để thoát')
-                        print('')
-                        input(f'{null:-<65}')
+                        ConnectionFailed()
                     except PermissionError:
                         TitlePrint()
                         print('                       CẬP NHẬT PHẦN MỀM:')
@@ -917,9 +956,7 @@ try:
                             print('     Hiện tại tính năng này chưa có gì để chỉnh sửa.')
                             print("     Nhấn phím Enter để quay lại.")
                             print('')
-                            print(f'{null:-<65}')
-                            print('')
-                            input()
+                            input(f'{null:-<65}')
                         elif mathsettingsinput==4:
                             divisionexit=False
                             while divisionexit==False:
@@ -932,7 +969,7 @@ try:
                                 print('')
                                 print(f'     [1]: Cho phép kết quả thập phân ({DKthapphan})')
                                 print('')
-                                if DKthapphanNhap=="False":
+                                if DKthapphanNhap=="False"+"\n":
                                     print(f'     [2]: Tùy chỉnh giá trị làm tròn (Tắt)')
                                 else:
                                     print(f'     [2]: Tùy chỉnh giá trị làm tròn (Hiện tại: {rounding})')
@@ -951,44 +988,22 @@ try:
                                 if divisioninput==0:
                                     divisionexit=True
                                 elif divisioninput==1:
-                                    FileVerify()
-                                    TitlePrint()
-                                    print('     CHO PHÉP KẾT QUẢ THẬP PHÂN?:')
-                                    print('')
-                                    print('     [0]: Quay lại')
-                                    print('')
-                                    print('     [1]: Bật')
-                                    print('')
-                                    print('     [2]: Tắt')
-                                    print("")
-                                    print(f'{null:-<65}')
-                                    print("")
-                                    allowfraction=str(input(' Lựa chọn (0-2) -> '))
-                                    try:
-                                        allowfraction=int(allowfraction)
-                                        if allowfraction not in [0,1,2]:
-                                            print(' Số vừa nhập không hợp lệ!')
-                                            time.sleep(1)
-                                    except ValueError:
-                                        print(' Lỗi cú pháp!')
-                                        time.sleep(1)
-                                    if allowfraction==1:
-                                        DKthapphanNhap='True'
-                                    elif allowfraction==2:
-                                        DKthapphanNhap='False'
-                                    if allowfraction in [1,2]:    
-                                        with open("Data/AllowFractionResult.log","w") as m1:
-                                            m1.write(DKthapphanNhap)
-                                        TaskComplete()
+                                    if DKthapphanNhap=="False"+"\n":
+                                        data[6]="True"+"\n"
+                                    else:
+                                        data[6]="False"+"\n"
+                                    with open("SaveFile.txt","w") as f:
+                                        for lines in data:
+                                            f.writelines(lines)
                                 elif divisioninput==2:
-                                    if DKthapphanNhap.title()=='False':
+                                    if DKthapphanNhap.title()=='False'+"\n":
                                         TitlePrint()
                                         print('                     TRUY CẬP BỊ TỪ CHỐI!')    
                                         print('')
-                                        print('  Bạn phải bật "cho phép kết quả thập phân" để thay đổi tùy chọn ')
-                                        print('  này!')
+                                        print(' Bạn phải bật "cho phép kết quả thập phân" để thay đổi tùy chọn ')
+                                        print(' này!')
                                         print('')
-                                        print("  Nhấn phím Enter để quay lại.")
+                                        print(" Nhấn phím Enter để quay lại.")
                                         print("")
                                         print(f"{null:-<65}")
                                         input()
@@ -1016,10 +1031,10 @@ try:
                                             print(' Lỗi cú pháp!')
                                             time.sleep(1)
                                         if rounding in [1,2,3,4,5]:
-                                            roundtemp=str(rounding)
-                                            with open("Data/RoundingValue.log","w") as m1:
-                                                m1.write(roundtemp)
-                                            TaskComplete()
+                                            data[7]=str(rounding)+"\n"
+                                            with open("SaveFile.txt","w") as f:
+                                                for lines in data:
+                                                    f.writelines(lines)
                         elif mathsettingsinput==2:
                             subtractionexit=False
                             while subtractionexit==False:
@@ -1046,34 +1061,13 @@ try:
                                 if subtractioninput==0:
                                     subtractionexit=True
                                 if subtractioninput==1:
-                                    TitlePrint()
-                                    print('     CHO PHÉP KẾT QUẢ ÂM?')
-                                    print('')
-                                    print('     [0]: Quay lại')
-                                    print('')
-                                    print('     [1]: Bật')
-                                    print('')
-                                    print('     [2]: Tắt')
-                                    print('')
-                                    print(f'{null:-<65}')
-                                    print('')
-                                    allownegative=str(input(' Lựa chọn (0-2) -> '))
-                                    try:
-                                        allownegative=int(allownegative)
-                                        if allownegative not in [0,1,2]:
-                                            print(' Số vừa nhập không hợp lệ!')
-                                            time.sleep(1)
-                                    except ValueError:
-                                        print(' Lỗi cú pháp!')
-                                        time.sleep(1)
-                                    if allownegative==1:
-                                        DKTruNhap='True'
-                                    elif allownegative==2:
-                                        DKTruNhap="False"
-                                    if allownegative in [1,2]:    
-                                        with open("Data/AllowNegativeResult.log","w") as m1:
-                                            m1.write(DKTruNhap) 
-                                        TaskComplete()  
+                                    if DKTruNhap=="False"+"\n":
+                                         data[5]="True"+"\n"
+                                    else:
+                                         data[5]="False"+"\n"
+                                    with open("SaveFile.txt","w") as f:
+                                        for lines in data:
+                                            f.writelines(lines)
                 elif inputexpect==4:
                     TitlePrint()
                     print("     THÔNG TIN HỆ THỐNG:")
@@ -1088,8 +1082,7 @@ try:
                     print('')
                     print("     Nhấn phím Enter để quay lại")
                     print('')
-                    print(f'{null:-<65}')
-                    input()
+                    input(f'{null:-<65}')
                 elif inputexpect==1:
                     repeat=True
                     while repeat==True:
@@ -1103,11 +1096,13 @@ try:
                         print('')
                         print("     [2]: Nền")
                         print('')
-                        print("     [3]: Đảo ngược màu")
+                        print("     [3]: Màu chữ + nền ngẫu nhiên")
+                        print("")
+                        print("     [4]: Đảo ngược màu")
                         print('')
-                        print("     [4]: Khôi phục cài đặt gốc")
+                        print("     [5]: Khôi phục cài đặt gốc")
                         print('')
-                        print("     [5]: Lưu ý")
+                        print("     [6]: Lưu ý")
                         print("")
                         print(f"{null:-<65}")
                         print("")
@@ -1115,102 +1110,18 @@ try:
                         textexit=False
                         bgexit=False
                         resetallexit=False
+                        textstyleselect=3108
                         try:
                             uiselect=int(uiselect)
-                            if uiselect not in [0,1,2,3,4,5]:
+                            if uiselect not in [0,1,2,3,4,5,6]:
                                 print(" Số vừa nhập không hợp lệ.")
                                 time.sleep(1)
                         except ValueError:
-                            if uiselect.lower()=='textcolortest':
-                                print(Style.RESET_ALL)
-                                os.system(clrscr)
-                                print('')
-                                print("                         KIỂM TRA MÀU CHỮ")
-                                print('')
-                                print(f"{null:-<65}")
-                                print('')
-                                print(Fore.WHITE+"      1. TRẮNG"+Style.RESET_ALL)
-                                print(Fore.LIGHTWHITE_EX+"      2. TRẮNG (NHẠT)"+Style.RESET_ALL)
-                                print(Fore.RED+"      3. ĐỎ"+Style.RESET_ALL)
-                                print(Fore.LIGHTRED_EX+"      4. ĐỎ (NHẠT)"+Style.RESET_ALL)
-                                print(Fore.GREEN+"      5. XANH LỤC"+Style.RESET_ALL)
-                                print(Fore.LIGHTGREEN_EX+"      6. XANH LỤC (NHẠT)"+Style.RESET_ALL)
-                                print(Fore.BLUE+"      7. XANH LAM"+Style.RESET_ALL)
-                                print(Fore.LIGHTBLUE_EX+"      8. XANH LAM (NHẠT)"+Style.RESET_ALL)
-                                print(Fore.CYAN+"      9. XANH LƠ (*)"+Style.RESET_ALL)
-                                print(Fore.LIGHTCYAN_EX+"      10. XANH LƠ (NHẠT) (*)"+Style.RESET_ALL)
-                                print(Fore.MAGENTA+"      11. MÀU CÁNH SEN (*)"+Style.RESET_ALL)
-                                print(Fore.LIGHTMAGENTA_EX+"      12. MÀU CÁNH SEN (NHẠT) (*)"+Style.RESET_ALL)
-                                print(Fore.YELLOW+"      13. VÀNG"+Style.RESET_ALL)
-                                print(Fore.LIGHTYELLOW_EX+"      14. VÀNG (NHẠT)"+Style.RESET_ALL)
-                                print('      '+Back.LIGHTBLACK_EX+Fore.BLACK+"15. ĐEN "+Style.RESET_ALL)
-                                print(Style.RESET_ALL+Fore.LIGHTBLACK_EX+"      16. ĐEN (NHẠT)")
-                                print(Style.RESET_ALL)
-                                print("-  Lựa chọn màu không thể chọn ở đây.")
-                                print("- Tên màu được lấy và dịch từ tên lệnh thực thi")
-                                print("(*) Tên màu được dịch từ Wikipedia Tiếng Việt")
-                                print('')
-                                print('https://pypi.org/project/colorama/ sẽ có thêm thông tin chi tiết!')
-                                print('Nhấn phím Enter để thoát')
-                                print('')
-                                input(f"{null:-<65}")
-                            elif uiselect.lower()=='textstyletest':
-                                print(Style.RESET_ALL)
-                                os.system(clrscr)
-                                print('')
-                                print("                         KIẺM TRA KIỂU CHỮ")
-                                print('')
-                                print(f"{null:-<65}")
-                                print('')
-                                print(Style.DIM+Style.BRIGHT+"      1. ĐẶC BIỆT (Mờ + Sáng)")
-                                print(Style.NORMAL+Style.DIM+"      2. MỜ")
-                                print(Style.NORMAL+"      3. THƯỜNG")
-                                print(Style.BRIGHT+"      4. SÁNG")
-                                print('')
-                                print(Style.RESET_ALL+"Lưu ý: Nếu bạn chọn kiểu 'sáng', màu chữ được tự động chuyển sang màu nhạt")
-                                print("Hiện tại không rõ lý do lỗi này bắt nguồn từ đâu")
-                                print('Nhấn phím Enter để thoát')
-                                print('')
-                                input(f"{null:-<65}")
-                            elif uiselect.lower()=='bgcolortest':
-                                print(Style.RESET_ALL)
-                                os.system(clrscr)
-                                print('')
-                                print("                         KIẺM TRA MÀU NỀN")
-                                print('')
-                                print(f"{null:-<65}")
-                                print('')
-                                print("     "+Back.WHITE+Fore.BLACK+"1. TRẮNG"+Back.BLACK)
-                                print("     "+Back.LIGHTWHITE_EX+"2. TRẮNG (NHẠT)"+Back.BLACK)
-                                print("     "+Back.RED+"3. ĐỎ"+Back.BLACK)
-                                print("     "+Back.LIGHTRED_EX+"4. ĐỎ (NHẠT)"+Back.BLACK)
-                                print("     "+Back.GREEN+"5. XANH LỤC"+Back.BLACK)
-                                print("     "+Back.LIGHTGREEN_EX+"6. XANH LỤC (NHẠT)"+Back.BLACK)
-                                print("     "+Back.BLUE+"7. XANH LAM"+Back.BLACK)
-                                print("     "+Back.LIGHTBLUE_EX+"8. XANH LAM (NHẠT)"+Back.BLACK)
-                                print("     "+Back.CYAN+"9. XANH LƠ (*)"+Back.BLACK)
-                                print("     "+Back.LIGHTCYAN_EX+"10. XANH LƠ (NHẠT) (*)"+Back.BLACK)
-                                print("     "+Back.MAGENTA+"11. MÀU CÁNH SEN (*)"+Back.BLACK)
-                                print("     "+Back.LIGHTMAGENTA_EX+"12. MÀU CÁNH SEN (NHẠT) (*)"+Back.BLACK)
-                                print("     "+Back.YELLOW+"13. VÀNG"+Back.BLACK)
-                                print("     "+Back.LIGHTYELLOW_EX+"14. VÀNG (NHẠT)"+Back.BLACK)
-                                print("     "+Back.BLACK+Fore.WHITE+"15. ĐEN"+Back.BLACK)
-                                print("     "+Back.LIGHTBLACK_EX+"16. ĐEN (NHẠT)"+Back.BLACK)
-                                print(Style.RESET_ALL)
-                                print("-  Lựa chọn màu không thể chọn ở đây.")
-                                print("- Tên màu được lấy và dịch từ tên lệnh thực thi")
-                                print("(*) Tên màu được dịch từ Wikipedia Tiếng Việt")
-                                print('')
-                                print('https://pypi.org/project/colorama/ sẽ có thêm thông tin chi tiết!')
-                                print('Nhấn phím Enter để thoát')
-                                print('')
-                                input(f"{null:-<65}")
-                            else:
-                                print(" Lỗi cú pháp!")
+                            print(" Lỗi cú pháp!")
                             time.sleep(1)
                         if uiselect==0:
                             repeat=False
-                        if uiselect==5:
+                        if uiselect==6:
                             TitlePrint()
                             print('     LƯU Ý:')
                             print('')
@@ -1222,11 +1133,10 @@ try:
                             print('')
                             print(" Nhấn phím Enter để quay lại.")
                             print('')
-                            print(f"{null:-<65}")
-                            input()
+                            input(f"{null:-<65}")
                         if uiselect==1:
-                            BundleTest()
                             while textexit==False:
+                                BundleTest()
                                 TitlePrint()
                                 print("     CÀI ĐẶT CHỮ:")
                                 print('')
@@ -1238,6 +1148,7 @@ try:
                                 print('')
                                 print(f'     [3]: Màu chữ (Hiện tại: {textcolorviet})')
                                 print('')
+                                print('     * Kiểu chữ sáng nhìn giống màu chữ nhạt')
                                 print(f'{null:-<65}')
                                 print('')
                                 textselect=str(input(" Lựa chọn (0-3) -> "))
@@ -1255,8 +1166,8 @@ try:
                                     print(" Lỗi cú pháp!")
                                     time.sleep(1)
                                 if textselect==1:
-                                    BundleTest()
                                     while textstyleexit==False:        
+                                        BundleTest()
                                         TitlePrint()
                                         print("     KIỂU CHỮ")
                                         print('')
@@ -1278,32 +1189,30 @@ try:
                                             if textstyleselect not in [0,1,2,3,4]:
                                                 print(" Số vừa nhập không hợp lệ.")
                                                 time.sleep(1)
-                                            else:
-                                                textstyleexit=True
                                         except ValueError:
                                             print(" Lỗi cú pháp!")
                                             time.sleep(1)
                                         if textstyleselect==0:
                                             textstyleexit=True
                                             textexit=False
-                                        if textstyleselect==1:
-                                            textstylechoice='Dim'
-                                        if textstyleselect==2:
-                                            textstylechoice='Normal'    
-                                        if textstyleselect==3:
-                                            textstylechoice='Bright'
-                                        if textstyleselect==4:
-                                            textstylechoice='Special'
-                                        if textstyleselect in [1,2,3,4]:    
-                                            with open("Data/TextStyleSave.log","w") as m1:
-                                                m1.write(textstylechoice)
-                                            TaskComplete()
-                                            textstyleexit=True       
+                                        if textstyleselect in [1,2,3,4]:
+                                            if textstyleselect==1:
+                                                textstylechoice='Dim'
+                                            elif textstyleselect==2:
+                                                textstylechoice='Normal'
+                                            elif textstyleselect==3:
+                                                textstylechoice='Bright'
+                                            elif textstyleselect==4:
+                                                textstylechoice='Special'
+                                            data[0]=textstylechoice+"\n"
+                                            with open("SaveFile.txt","w") as f:
+                                                for lines in data:
+                                                    f.writelines(lines)
                                 if textselect==0:
                                     textexit=True
                                 if textselect==2:
-                                    BundleTest()
                                     while textshadeexit==False:
+                                        BundleTest()
                                         TitlePrint()
                                         print("     ĐỘ ĐẬM NHẠT CỦA CHỮ:")
                                         print('')
@@ -1321,8 +1230,6 @@ try:
                                             if textshadeselect not in [0,1,2]:
                                                 print(" Số vừa nhập không hợp lệ.")
                                                 time.sleep(1)
-                                            else:
-                                                textshadeexit=True
                                         except ValueError:
                                             print(" Lỗi cú pháp!")
                                             time.sleep(1)
@@ -1330,16 +1237,16 @@ try:
                                             textshadeexit=True
                                             textexit=False
                                         if textshadeselect==1:
-                                            textshadechoice='Light'
+                                            data[1]='Light'+"\n"
                                         if textshadeselect==2:
-                                            textshadechoice='Normal'
+                                            data[1]='Normal'+"\n"
                                         if textshadeselect in [1,2]:
-                                            with open("Data/TextShadeSave.log","w") as m1:
-                                                m1.write(textshadechoice)
-                                            TaskComplete()
+                                            with open("SaveFile.txt","w") as f:
+                                                for lines in data:
+                                                    f.writelines(lines)
                                 if textselect==3:
-                                    BundleTest()
                                     while textcolorexit==False:
+                                        BundleTest()
                                         TitlePrint()
                                         print("     MÀU CHỮ:")
                                         print('')
@@ -1392,16 +1299,29 @@ try:
                                                 textcolortemp='Cyan'
                                             elif textcolorselect==8:
                                                 textcolortemp='White'
-                                            if textcolortemp==bgcolorchoice:
+                                            if textcolortemp==bgcolorchoice.removesuffix("\n"):
                                                 print(' Màu chữ bị trùng với màu nền!')
                                                 time.sleep(1)
                                                 textcolorexit=False                   
                                             else:
-                                                textcolorchoice=textcolortemp
-                                                with open("Data/TextColorSave.log","w") as m1:
-                                                    m1.write(textcolorchoice)
-                                                TaskComplete()
-                                                textcolorexit=True
+                                                data[2]=textcolortemp+"\n"
+                                                with open("SaveFile.txt","w") as f:
+                                                    for lines in data:
+                                                        f.writelines(lines)
+                        if uiselect==3:                            
+                            textcolorchoice=random.choice(randomcolor)
+                            bgcolorchoice=random.choice(randomcolor)
+                            data[0]="Normal"+"\n"
+                            data[1]="Normal"+"\n"
+                            data[3]="Normal"+"\n"
+                            while textcolorchoice==bgcolorchoice:
+                                textcolorchoice=random.choice(randomcolor)
+                                bgcolorchoice=random.choice(randomcolor)
+                            data[2]=textcolorchoice+"\n"
+                            data[4]=bgcolorchoice+"\n"
+                            with open("SaveFile.txt","w") as f:
+                                for lines in data:
+                                    f.writelines(lines)
                         if uiselect==2:
                             BundleTest()
                             while bgexit==False:              
@@ -1432,10 +1352,9 @@ try:
                                     time.sleep(1)
                                 if bgselect==0:
                                     bgexit=True
-                                if bgselect==1:
-                                    BundleTest()
+                                if bgselect==1:                                 
                                     while bgshadeexit==False:
-                                        os.system(clrscr)
+                                        BundleTest()
                                         TitlePrint()
                                         print("     ĐỘ ĐẬM NHẠT CỦA NỀN:")
                                         print('')
@@ -1453,8 +1372,6 @@ try:
                                             if bgshadeselect not in [0,1,2]:
                                                 print(" Số vừa nhập không hợp lệ.")
                                                 time.sleep(1)
-                                            else:
-                                                bgshadeexit=True
                                         except ValueError:
                                             print(" Lỗi cú pháp!")
                                             time.sleep(1)
@@ -1462,17 +1379,16 @@ try:
                                             bgshadeexit=True
                                             bgexit=False
                                         if bgshadeselect==1:
-                                            bgshadechoice='Light'                        
+                                            data[3]='Light'+"\n"                     
                                         if bgshadeselect==2:
-                                            bgshadechoice='Normal'
+                                            data[3]='Normal'+"\n"
                                         if bgshadeselect in [1,2]:
-                                            with open("Data/BGShadeSave.log","w") as m1:
-                                                m1.write(bgshadechoice)
-                                            TaskComplete() 
+                                            with open("SaveFile.txt","w") as f:
+                                                for lines in data:
+                                                    f.writelines(lines)
                                 if bgselect==2:
-                                    BundleTest()
                                     while bgcolorexit==False:
-                                        os.system(clrscr)
+                                        BundleTest()
                                         TitlePrint()
                                         print("     MÀU NỀN:")
                                         print('')
@@ -1525,23 +1441,21 @@ try:
                                                 bgcolortemp='Cyan'
                                             elif bgcolorselect==8:
                                                 bgcolortemp='White'
-                                            if textcolorchoice==bgcolortemp:
+                                            if textcolorchoice.removesuffix("\n")==bgcolortemp:
                                                 print(' Màu nền trùng với màu chữ!')
                                                 time.sleep(1)
                                             else:    
-                                                bgcolorchoice=bgcolortemp
-                                                with open("Data/BGColorSave.log","w") as m1:
-                                                    m1.write(bgcolorchoice)
-                                                TaskComplete()
-                                                bgcolorexit=True
-                        if uiselect==4:
+                                                data[4]=bgcolortemp+"\n"
+                                                with open("SaveFile.txt","w") as f:
+                                                    for lines in data:
+                                                        f.writelines(lines)
+                        if uiselect==5:
                             ApplySettings()
-                            os.system(clrscr)
                             TitlePrint()
-                            print("     LƯU Ý:")
+                            print("     LƯU Ý!")
                             print('')
-                            print("  Bạn sẽ KHÔI PHỤC TẤT CẢ cài đặt giao diện về mặc định!")
-                            print("  Bạn chắc chắn muốn tiếp tục không?")
+                            print("     Bạn sẽ KHÔI PHỤC TẤT CẢ cài đặt giao diện về mặc định!")
+                            print("     Bạn chắc chắn muốn tiếp tục không?")
                             print('')
                             print("     [0]: Không")
                             print('')
@@ -1560,11 +1474,11 @@ try:
                                 time.sleep(1)
                             if resetallselect==1:
                                 SetColorToDefault()
-                                TaskComplete()
-                        if uiselect==3:
+                                ApplySettings()
+                        if uiselect==4:
                             BundleTest()
                             TitlePrint()
-                            print("                         LƯU Ý!")
+                            print("     LƯU Ý!")
                             print('')
                             print("     Màu giao diện sẽ bị đảo ngược từ:")
                             print('')
@@ -1590,42 +1504,109 @@ try:
                                 print(" Lỗi cú pháp!")
                                 time.sleep(1)
                             if invertselect==1:
-                                bgcolorchoice,textcolorchoice=textcolorchoice,bgcolorchoice
-                                with open("Data/TextColorSave.log","w") as m1:
-                                    m1.write(textcolorchoice)
-                                with open("Data/BGColorSave.log","w") as m1:
-                                    m1.write(bgcolorchoice)
-                                TaskComplete()
+                                data[4],data[2]=data[2],data[4]
+                                with open("SaveFile.txt","w") as f:
+                                    for lines in data:
+                                        f.writelines(lines)
                 elif inputexpect==3:
                     TitlePrint()
                     print("     THÔNG TIN PHẦN MỀM:")
                     print('')
-                    print("     - Phiên bản 1.4.4")
+                    print("     - Phiên bản 1.4.5")
                     print('')
                     print(f'     - Phiên bản Python: {platform.python_version()}')
                     print('')
                     print("     Nhấn phím Enter để quay lại")
                     print('')
-                    print(f"{null:-<65}")
-                    input()
-        elif pt==1:
-            dau="+"
-            phep='cộng'
-        elif pt==3:
-            dau="x"
-            phep='nhân'
-        elif pt==2:
-            dau='-'
-            phep='trừ'
-        else:
-            dau=':'
-            phep='chia'
-        if pt in [1,2,3,4]:    
-            os.system(clrscr)
+                    input(f"{null:-<65}")
+        #Main Software
+        if pt in [1,2,3,4,5]:
+            multiple=3108
+            codegen=False
             while settingsexit==False:
+                if pt==1:
+                    dau="+"
+                    phep='cộng'
+                elif pt==3:
+                    dau="x"
+                    phep='nhân'
+                elif pt==2:
+                    dau='-'
+                    phep='trừ'
+                elif pt==4:
+                    dau=':'
+                    phep='chia'
+                else:
+                    codegen=True
+                    multiloop=True
+                    while multiloop:
+                        TitlePrint()
+                        print('     Chọn phép toán mà bạn muốn có:')
+                        print('')
+                        print('     [0]: Quay lại')
+                        print('')
+                        print(f'     [1]: Cộng ({mathdata[0]})')
+                        print('')
+                        print(f'     [2]: Trừ ({mathdata[1]})')
+                        print('')
+                        print(f'     [3]: Nhân ({mathdata[2]})')
+                        print('')
+                        print(f'     [4]: Chia ({mathdata[3]})')
+                        print("")
+                        print("     Sau khi xong, nhập 'ok' để tiếp tục")
+                        print('')
+                        print(f"{null:-<65}")
+                        print("")
+                        multiple=str(input(" Nhập ở đây -> "))
+                        try:
+                            multiple=int(multiple)
+                            if multiple==0:
+                                multiloop=False
+                                settingsexit=True
+                                pt=0
+                                break
+                            elif multiple==1:
+                                if mathdata[0]=="Bật":
+                                    mathdata[0]="Tắt"
+                                else:
+                                    mathdata[0]="Bật"
+                            elif multiple==2:
+                                if mathdata[1]=="Bật":
+                                    mathdata[1]="Tắt"
+                                else:
+                                    mathdata[1]="Bật"
+                            elif multiple==3:
+                                if mathdata[2]=="Bật":
+                                    mathdata[2]="Tắt"
+                                else:
+                                    mathdata[2]="Bật"
+                            elif multiple==4:
+                                if mathdata[3]=="Bật":
+                                    mathdata[3]="Tắt"
+                                else:
+                                    mathdata[3]="Bật"
+                            else:
+                                print(" Số vừa nhập không hợp lệ.")
+                                time.sleep(1)
+                        except ValueError:
+                            if multiple.title()=="Ok":
+                                if mathdata[0]=="Tắt" and mathdata[1]=="Tắt" and mathdata[2]=="Tắt" and mathdata[3]=="Tắt":
+                                    print(" Phải bật ít nhất 1 phép tính để tiếp tục!")
+                                    time.sleep(1)
+                                else:
+                                    multiloop=False
+                            else:
+                                print(" Giá trị không hợp lệ!")
+                                time.sleep(1)
+                if multiple==0:
+                    break
+                MathApply()
                 TitlePrint()              
-                print(f"     * Phép {phep}:")
-                print('')
+                if pt in [1,2,3,4]:
+                    print(f"     * Phép {phep}:")
+                else:
+                    print("     Hỗn hợp")
+                print("")
                 print("     Số bài toán bạn muốn thực hiện: ")
                 print('')
                 print("     [0]: Thoát")
@@ -1650,7 +1631,10 @@ try:
                     if sbt>=1:    
                         while ainputexit==False:
                             TitlePrint()
-                            print(f"     * Phép {phep}:")
+                            if pt in [1,2,3,4]:
+                                print(f"     * Phép {phep}:")
+                            else:
+                                print("     Hỗn hợp")
                             print('')
                             print(f"     + Số bài toán bạn muốn thực hiện: {sbt}")
                             print('')
@@ -1673,10 +1657,11 @@ try:
                                     time.sleep(1)
                                 if a>0:
                                     while binputexit==False:
-                                        os.system(clrscr)
                                         TitlePrint()
-                                        print(f"     * Phép {phep}:")
-                                        print('')
+                                        if pt in [1,2,3,4]:
+                                            print(f"     * Phép {phep}:\n")
+                                        else:
+                                            print("     Hỗn hợp\n")
                                         print(f"     + Số bài toán bạn muốn thực hiện: {sbt}")
                                         print('')
                                         print(f"     + Giá trị lớn nhất của số a: {a}")
@@ -1697,10 +1682,14 @@ try:
                                                 binputexit=True
                                             if b>=1:
                                                 while confirmsettings==False:
+                                                    if platform.system()=='Windows' and pt==5:
+                                                        os.system("mode con cols=65 lines=36")
                                                     MathApply()
                                                     TitlePrint()
-                                                    print(f"     * Phép {phep}:")
-                                                    print('')
+                                                    if pt in [1,2,3,4]:
+                                                        print(f"     * Phép {phep}:\n")
+                                                    else:
+                                                        print("     Hỗn hợp\n")
                                                     print(f"     + Số bài toán bạn muốn thực hiện: {sbt}")
                                                     print('')
                                                     print(f"     + Giá trị lớn nhất của số a: {a}")
@@ -1713,9 +1702,13 @@ try:
                                                     elif pt==4:
                                                         print(f"     + Cho phép tạo phép tính với kết quả thập phân: {DKthapphan}")
                                                         print('')
-                                                        if DKthapphanNhap.title()=='True':
-                                                            print(f"     + Làm tròn tới số thập phân thứ {rounding}")
-                                                            print('')
+                                                        if DKthapphanNhap=='True'+"\n":
+                                                            print(f"     + Làm tròn tới số thập phân thứ {rounding}\n")
+                                                    elif pt==5:
+                                                        print(f"     Phép cộng: {mathdata[0]}\n")
+                                                        print(f"     Phép trừ: {mathdata[1]}\n")
+                                                        print(f"     Phép nhân: {mathdata[2]}\n")
+                                                        print(f"     Phép chia: {mathdata[3]}\n")
                                                     print(f"     Cài đặt này ổn với bạn không?")
                                                     print('')
                                                     print("     [0]: Quay lại")
@@ -1727,7 +1720,9 @@ try:
                                                     print(f"{null:-<65}")
                                                     print('')
                                                     confirminput=str(input(" Lựa chọn (0-2) -> "))
-                                                    if DKthapphan.title()=='Bật' and pt==4 and confirminput=='1':
+                                                    if (DKthapphan.title()=='Bật' and pt==4 and confirminput=='1') or (mathdata[3]=="Bật" and confirminput==1):
+                                                        if platform.system()=='Windows':
+                                                            os.system("mode con cols=65 lines=32")
                                                         os.system(clrscr)
                                                         TitlePrint()
                                                         print("Lưu ý:")
@@ -1770,21 +1765,54 @@ try:
                                                             time.sleep(1)
                                                         os.system(clrscr)
                                                         if confirminput==1:
+                                                            if pt==5:
+                                                                mathchoice=[1,2,3,4]
+                                                                if mathdata[0]=="Tắt":
+                                                                    mathchoice.remove(1)
+                                                                if mathdata[1]=="Tắt":
+                                                                    mathchoice.remove(2)
+                                                                if mathdata[2]=="Tắt":
+                                                                    mathchoice.remove(3)
+                                                                if mathdata[3]=="Tắt":
+                                                                    mathchoice.remove(4)
+                                                            if platform.system()=='Windows':
+                                                                os.system("mode con cols=65 lines=32")
                                                             while nq<=sbt:
+                                                                if codegen==True:
+                                                                    pt=random.choice(mathchoice)
+                                                                c=random.randint(0,a)
+                                                                d=random.randint(0,b)
                                                                 if pt in [1,3]:
                                                                     c=random.randint(0,a)
                                                                     d=random.randint(0,b)
-                                                                if pt==2 and DKTruNhap=='False':
-                                                                    while c<d:
+                                                                    if pt==1:
+                                                                        dau="+"
+                                                                        kqd=c+d
+                                                                    else:
+                                                                        dau="x"
+                                                                        kqd=c*d
+                                                                elif pt==2:
+                                                                    if DKTruNhap=='False'+"\n":
+                                                                        while c<d:
+                                                                            c=random.randint(0,a)
+                                                                            d=random.randint(0,b)
+                                                                    else:
                                                                         c=random.randint(0,a)
-                                                                        d=random.randint(0,b)
-                                                                else:
-                                                                    c=random.randint(0,a)
-                                                                    d=random.randint(1,b)
-                                                                    if DKthapphanNhap=="False":
+                                                                        d=random.randint(1,b)
+                                                                    dau="-"
+                                                                    kqd=c-d
+                                                                elif pt==4:
+                                                                    if DKthapphanNhap=='False'+"\n":
                                                                         while c%d!=0:
                                                                             c=random.randint(0,a)
                                                                             d=random.randint(1,b)
+                                                                        dau=":"
+                                                                        kqd=round(c/d)
+                                                                    elif DKthapphanNhap=="True\n":
+                                                                        c=random.randint(0,a)
+                                                                        d=random.randint(1,b)
+                                                                        dau=":"
+                                                                        kqd=round(c/d,rounding)
                                                                 exitpro=False
                                                                 TitlePrint()
                                                                 print("     [Exit]: Thoát")
@@ -1807,19 +1835,8 @@ try:
                                                                        exitpro=True
                                                                    else:
                                                                        errorValue=True
-                                                                       print(" Giá trị không hợp lệ. Hệ thống sẽ tự tạo ra bài khác và đánh dấu bài này sai.")
+                                                                       print(" Giá trị không hợp lệ.")
                                                                 nq+=1
-                                                                if pt==1:
-                                                                     kqd=c+d
-                                                                elif pt==2:
-                                                                    kqd=c-d
-                                                                elif pt==3:
-                                                                     kqd=c*d
-                                                                else:
-                                                                    if DKthapphanNhap=="True":
-                                                                        kqd=round(c/d,rounding)
-                                                                    else:
-                                                                        kqd=round(c/d)
                                                                 if kq==kqd:
                                                                     print(" Kết quả chính xác!")
                                                                     print(" Nhấn phím Enter để tiếp tục.")
@@ -1834,7 +1851,7 @@ try:
                                                                      print(" Nhấn phím Enter để tiếp tục.")
                                                                      input()
                                                                     os.system(clrscr)
-                                                                resultexit=False
+                                                            resultexit=False
                                                             while resultexit==False:
                                                                 TitlePrint()
                                                                 print("     TỔNG KẾT:")
@@ -1899,19 +1916,125 @@ try:
                                 print(" Giá trị không hợp lệ.")
                                 time.sleep(1)
                     elif sbt==0:
-                        settingsexit=True
+                        if pt==5:
+                            multiloop=True
+                            settingsexit=False
+                            pt=0
+                        else:
+                            settingsexit=True
                 except ValueError:
                     print(" Giá trị không hợp lệ.")
                     time.sleep(1)
 except KeyboardInterrupt:
-    exitprogram()
+    if bsod=="True"+"\n":
+        BeginBSOD()
+        print("KEYBOARD_INTERRUPT")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("If this is the first time you've seen this stop error screen, restart this software. If this screen appears again, follow these steps:")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("If the software launch normally, don't use Ctrl+C")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("Technical information:")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("*** STOP: KEYBOARD_INTERRUPT")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("PRESS ENTER TO EXIT")
+        time.sleep(0.05)
+        input()
+        sys.exit()
+    else:    
+        exitprogram()
 except PermissionError:
-    TitlePrint()
-    print('                           LỖI ĐỌC/GHI:')
-    print('')
-    print('               Phần mềm không thể ghi lại file log.')
-    print(' Hãy kiểm tra quyền truy cập ổ đĩa và/hoặc file log của phần mềm.')
-    print('')
-    print('                    Nhấn phím Enter để thoát!')
-    print('')
-    input(f"{null:-<65}")
+    try:
+        if bsod=="True"+"\n":
+            BeginBSOD()
+            print("PERMISSION_ERROR")
+            time.sleep(0.05)
+            print("")
+            time.sleep(0.05)
+            print("If this is the first time you've seen this stop error screen, restart this software. If this screen appears again, follow these steps:")
+            time.sleep(0.05)
+            print("")
+            time.sleep(0.05)
+            print("Check your file/disk permission. If it's read only, allow it to write in propeties.")
+            time.sleep(0.05)
+            print("")
+            time.sleep(0.05)
+            print("Technical information:")
+            time.sleep(0.05)
+            print("")
+            time.sleep(0.05)
+            print("*** STOP: PERMISSION_ERROR")
+            time.sleep(0.05)
+            print("")
+            time.sleep(0.05)
+            print("PRESS ENTER TO EXIT")
+            time.sleep(0.05)
+            input()
+            sys.exit()
+        else:
+            TitlePrint()
+            print('                           LỖI ĐỌC/GHI:')
+            print('')
+            print('               Phần mềm không thể ghi lại file log.')
+            print(' Hãy kiểm tra quyền truy cập ổ đĩa và/hoặc file log của phần mềm.')
+            print('')
+            print('                    Nhấn phím Enter để thoát!')
+            print('')
+            input(f"{null:-<65}")
+    except Exception:
+        TitlePrint()
+        print('                           LỖI ĐỌC/GHI:')
+        print('')
+        print('               Phần mềm không thể ghi lại file log.')
+        print(' Hãy kiểm tra quyền truy cập ổ đĩa và/hoặc file log của phần mềm.')
+        print('')
+        print('                    Nhấn phím Enter để thoát!')
+        print('')
+        input(f"{null:-<65}")
+except Exception:
+    if bsod=="True"+"\n":
+        BeginBSOD()
+        print("UNEXPECTED_ERROR_DETECTED")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("If this is the first time you've seen this stop error screen, restart this software. If this screen appears again, follow these steps:")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("Let me know about this error. I will try to fix it.")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("Technical information:")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("*** STOP: UNEXPECTED_ERROR")
+        time.sleep(0.05)
+        print("")
+        time.sleep(0.05)
+        print("PRESS ENTER TO EXIT")
+        time.sleep(0.05)
+        input()
+        sys.exit()
+    else:    
+        TitlePrint()
+        print('                       LỖI KHÔNG XÁC ĐỊNH')
+        print('')
+        print('                Phần mềm gặp lỗi không xác định.')
+        print(' Hãy báo cáo lỗi này để nó có thể khắc phục trong thời gian ngắn.\n')
+        print('                    Nhấn phím Enter để thoát\n')
+        input(f"{null:-<65}")
+        sys.exit()
